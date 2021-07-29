@@ -1,0 +1,1760 @@
+{% extends "layout.html" %}
+{% block title %} Invoice Management System {% endblock %}
+{% block content %}
+{{ super() }}
+{% block page_content %}    
+    <div class="container" id="mainContent">
+        <div class="row">
+            <div class="col" id="mainTitle">
+                <h2 class="text-center text-secondary p-2" style="border: 1px dotted #ddd">Invoice Management System</h2>
+            </div>
+        </div>
+        <!-- It will show message when the New Customer or New Product is registered into database.  -->
+        <div class="row"><div class="col" id="statusMessage"></div></div>
+        <div class="row">
+           <div class="col-sm-6">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card mb-3">
+                            <div class="card-header bg-secondary">
+                                <h4 class="card-title text-center text-white">Customer Details</h4>
+                            </div>                            
+                            <!-- It will display customer details in readonly mode. -->
+                            <div class="card-body collapse show" id="oldCustomerCard">
+                                <form method="POST" id="oldCustomerForm" name="oldCustomerForm" class="form-vertical" action="">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <input type="text" list="oldCustomerFormDatalistCustomerName" class="form-control" id="oldCustomerFormOrderCustomerName" name="oldCustomerFormOrderCustomerName" placeholder="Customer Name">
+                                                <datalist id="oldCustomerFormDatalistCustomerName"></datalist>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="oldCustomerFormCustomerDiscount" name="oldCustomerFormCustomerDiscount" placeholder="Customer Discount" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">                                        
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="oldCustomerFormCustomerName" name="oldCustomerFormCustomerName" placeholder="Name" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="oldCustomerFormCustomerEmail" name="oldCustomerFormCustomerEmail" placeholder="Email" readonly>
+                                            </div>
+                                        </div>                                        
+                                    </div>
+                                    <div class="row">                                        
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="oldCustomerFormCustomerContact" name="oldCustomerFormCustomerContact" placeholder="Contact" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="oldCustomerFormCustomerZip" name="oldCustomerFormCustomerZip" placeholder="Zip" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">                                        
+                                        <div class="col-sm-6">
+                                            <div class="form-group">                                        
+                                                <input type="text" class="form-control" id="oldCustomerFormCustomerCity" name="oldCustomerFormCustomerCity" placeholder="City" readonly>
+                                            </div>                                        
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="oldCustomerFormCustomerDistrict" name="oldCustomerFormCustomerDistrict" placeholder="District" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">                                        
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="oldCustomerFormCustomerState" name="oldCustomerFormCustomerState" placeholder="State" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">        
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="oldCustomerFormCustomerCountry" name="oldCustomerFormCustomerCountry" placeholder="Country" readonly>
+                                            </div>
+                                        </div>
+                                    </div>                            
+                                    <div class="row">
+                                        <div class="offset-sm-6 col-sm-6">                                        
+                                            <div class="form-group">
+                                                <button type="button" class="btn btn-secondary float-right d-print-none ml-1 mr-1" id="oldCustomerFormCustomerRegisterButton" name="oldCustomerFormCustomerRegisterButton" data-toggle="collapse" data-target="#oldCustomerCard, #newCustomerCard" style="width:72px;">New</button>
+                                                <button type="button" class="btn btn-secondary float-right d-print-none mr-1" id="oldCustomerFormCustomerUpdateButton" name="oldCustomerFormCustomerUpdateButton" data-toggle="collapse" data-target="#oldCustomerCard, #updateCustomerCard" style="width:72px;">Update</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>                                
+                            <!-- It will display Customer Registration Form on clicking the New Customer Button. -->
+                            <div class="card-body collapse" id="newCustomerCard">
+                                <form id="newCustomerForm" name="newCustomerForm" method="POST" class="form-vertical" action="">                         
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="newCustomerFormCustomerName" name="newCustomerFormCustomerName" placeholder="Name">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="newCustomerFormCustomerEmail" name="newCustomerFormCustomerEmail" placeholder="Email">
+                                            </div>
+                                        </div>                                
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="newCustomerFormCustomerContact" name="newCustomerFormCustomerContact" placeholder="Contact">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="newCustomerFormCustomerZip" name="newCustomerFormCustomerZip" placeholder="Zip">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <select class="form-control" id="newCustomerFormCustomerCity" name="newCustomerFormCustomerCity">
+                                                <option value="">Select</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="newCustomerFormCustomerDistrict" name="newCustomerFormCustomerDistrict" placeholder="District" readonly>
+                                            </div>
+                                        </div>
+                                    </div>                            
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="newCustomerFormCustomerState" name="newCustomerFormCustomerState" placeholder="State" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">        
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="newCustomerFormCustomerCountry" name="newCustomerFormCustomerCountry" placeholder="Country" readonly>
+                                            </div>
+                                        </div>                                
+                                    </div>
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-secondary float-right d-print-none ml-1" id="newCustomerFormCustomerRegisterButton" name="newCustomerFormCustomerRegisterButton" style="width:72px;">Submit</button>
+                                        <button type="button" class="btn btn-secondary float-right d-print-none ml-1 mr-1" id="newCustomerFormCustomerUpdateButton" name="newCustomerFormCustomerUpdateButton" data-toggle="collapse" data-target="#newCustomerCard, #updateCustomerCard" style="width:72px;">Update</button>
+                                        <button type="button" class="btn btn-secondary float-right d-print-none mr-1" id="newCustomerFormBackButton" name="newCustomerFormBackButton" data-toggle="collapse" data-target="#newCustomerCard, #oldCustomerCard" style="width:72px;">Back</button>        
+                                    </div>
+                                </form>
+                            </div>
+                            <!-- It will display Customer Registration Form on clicking the New Customer Button. -->
+                            <div class="card-body collapse" id="updateCustomerCard">
+                                <form id="updateCustomerForm" name="updateCustomerForm" method="POST" class="form-vertical" action="">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <input type="text" list="updateCustomerFormDatalistCustomerName" class="form-control" id="updateCustomerFormUpdateCustomerName" name="updateCustomerFormUpdateCustomerName" placeholder="Customer Name">
+                                                <datalist id="updateCustomerFormDatalistCustomerName"></datalist>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="updateCustomerFormCustomerName" name="updateCustomerFormCustomerName" placeholder="Name" readonly>
+                                            </div>
+                                        </div>                                        
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="updateCustomerFormCustomerEmail" name="updateCustomerFormCustomerEmail" placeholder="Email" readonly>
+                                            </div>
+                                        </div>                                
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="updateCustomerFormCustomerContact" name="updateCustomerFormCustomerContact" placeholder="Contact" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="updateCustomerFormCustomerZip" name="updateCustomerFormCustomerZip" placeholder="Zip" readonly>
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="updateCustomerFormCustomerCity" name="updateCustomerFormCustomerCity" placeholder="City" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">                                        
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="updateCustomerFormCustomerDistrict" name="updateCustomerFormCustomerDistrict" placeholder="District" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="updateCustomerFormCustomerState" name="updateCustomerFormCustomerState" placeholder="State" readonly>
+                                            </div>
+                                        </div>
+                                    </div>                            
+                                    <div class="row">
+                                        <div class="col-sm-6">        
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="updateCustomerFormCustomerCountry" name="updateCustomerFormCustomerCountry" placeholder="Country" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <button type="submit" class="btn btn-secondary float-right d-print-none ml-1" id="updateCustomerFormCustomerUpdateButton" name="updateCustomerFormCustomerUpdateButton" style="width:72px;">Submit</button>
+                                                <button type="button" class="btn btn-secondary float-right d-print-none ml-1 mr-1" id="updateCustomerFormCustomerRegisterButton" name="updateCustomerFormCustomerRegisterButton" data-toggle="collapse" data-target="#oldCustomerCard, #newCustomerCard" style="width:72px;">New</button>
+                                                <button type="button" class="btn btn-secondary float-right d-print-none mr-1" id="updateCustomerFormBackButton" name="updateCustomerFormBackButton" data-toggle="collapse" data-target="#updateCustomerCard, #oldCustomerCard" style="width:72px;">Back</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div> 
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card"> 
+                            <div class="card-header bg-secondary">
+                                <h4 class="card-title text-center text-white">Product Details</h4>
+                            </div>                            
+                            <div class="card-body collapse show" id="orderProductCard">
+                                <form id="orderProductForm" name="orderProductForm" method="post" class="form-vertical" action="/" novalidate="novalidate">                        
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <input type="text" list="orderProductFormDatalistProductName" class="form-control" id="orderProductFormProductName" name="orderProductFormProductName" data-validation="required" placeholder="Product Name">
+                                                <datalist id="orderProductFormDatalistProductName"></datalist>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="orderProductFormProductQuantity" name="orderProductFormProductQuantity" data-validation="required" placeholder="Quantity">
+                                            </div>
+                                        </div>
+                                    </div>                            
+                                    <div class="form-group">
+                                        <button type="button" class="btn btn-secondary float-right d-print-none ml-1" id="orderProductFormAddProductButton" name="orderProductFormAddProductButton" style="width:72px;">Add</button>
+                                        <button type="button" class="btn btn-secondary float-right d-print-none ml-1 mr-1" id="orderProductFormNewProductButton" name="orderProductFormNewProductButton" data-toggle="collapse" data-target="#orderProductCard, #newProductCard, #oldCustomerCard" style="width:72px;">New</button>
+                                        <button type="button" class="btn btn-secondary float-right d-print-none mr-1" id="orderProductFormUpdateProductButton" name="orderProductFormUpdateProductButton" data-toggle="collapse" data-target="#orderProductCard, #updateProductCard, #oldCustomerCard" style="width:72px;">Update</button>
+                                    </div>
+                                </form>                        
+                            </div>
+                            <div class="card-body collapse" id="updateProductCard">
+                                <form id="updateProductForm" name="updateProductForm" method="post" class="form-vertical" action="">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <input type="text" list="updateProductFormDatalistProductName" class="form-control" id="updateProductFormDatalistUpdateProductName" name="updateProductFormDatalistUpdateProductName" data-validation="required" placeholder="Product Name">
+                                                <datalist id="updateProductFormDatalistProductName"></datalist>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">                                                
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="updateProductFormProductName" name="updateProductFormProductName" placeholder="Name" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">                                        
+                                        <div class="col-sm-6">                                                
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="updateProductFormProductCostPrice" name="updateProductFormProductCostPrice" placeholder="Cost Price" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="updateProductFormProductSellPrice" name="updateProductFormProductSellPrice" placeholder="Sell Price" readonly>
+                                            </div>
+                                        </div>
+                                    </div>                                            
+                                    <div class="row">                                        
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="updateProductFormProductQuantity" name="updateProductFormProductQuantity" placeholder="Quantity" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">                                                
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="updateProductFormProductDiscount" name="updateProductFormProductDiscount" placeholder="Discount" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">                                        
+                                        <div class="offset-sm-6 col-sm-6">                                                
+                                            <div class="form-group">
+                                                <button type="submit" class="btn btn-secondary float-right d-print-none ml-1" id="updateProductFormUpdateProductButton" name="updateProductFormUpdateProductButton" style="width:72px;">Submit</button>
+                                                <button type="button" class="btn btn-secondary float-right d-print-none ml-1 mr-1" id="updateProductFormAddProductButton" name="updateProductFormAddProductButton" data-toggle="collapse" data-target="#updateProductCard, #newProductCard" style="width:72px;">New</button>
+                                                <button type="button" class="btn btn-secondary float-right d-print-none mr-1 " id="updateProductFormBackButton" name="updateProductFormBackButton" data-toggle="collapse" data-target="#orderProductCard, #updateProductCard, #oldCustomerCard" style="width:72px;">Back</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="card-body collapse" id="newProductCard">
+                                <form id="newProductForm" name="newProductForm" method="post" class="form-vertical" action="">
+                                    <div class="row">
+                                        <div class="col-sm-6">                                                
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="newProductFormProductName" name="newProductFormProductName" placeholder="Name">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">                                                
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="newProductFormProductCostPrice" name="newProductFormProductCostPrice" placeholder="Cost Price">
+                                            </div>
+                                        </div>
+                                    </div>                                            
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="newProductFormProductSellPrice" name="newProductFormProductSellPrice" placeholder="Sell Price">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="row">
+                                                <div class="col-sm-6">                                                
+                                                    <div class="form-group">
+                                                        <input type="text" class="form-control" id="newProductFormProductQuantity" name="newProductFormProductQuantity" placeholder="Quantity">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">                                                
+                                                    <div class="form-group">
+                                                        <input type="text" class="form-control" id="newProductFormProductDiscount" name="newProductFormProductDiscount" placeholder="Discount">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>                                            
+                                    <div class="form-group" id="submitBack">
+                                        <button type="submit" class="btn btn-secondary float-right d-print-none ml-1" id="newProductFormNewProductButton" name="newProductFormNewProductButton" style="width:72px;">Submit</button>
+                                        <button type="button" class="btn btn-secondary float-right d-print-none ml-1 mr-1" id="newProductFormUpdateProductButton" name="newProductFormUpdateProductButton" data-toggle="collapse" data-target="#updateProductCard, #newProductCard" style="width:72px;">Update</button>
+                                        <button type="button" class="btn btn-secondary float-right d-print-none mr-1" id="newProductFormBackButton" name="newProductFormBackButton" data-toggle="collapse" data-target="#orderProductCard, #newProductCard, #oldCustomerCard" style="width:72px;">Back</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>  
+            </div>
+            <div class="col-sm-6">
+                <!-- It will display all ordered product in tabular form. -->
+                <div class="row">
+                    <div class="col-sm-12 mb-2">
+                        <div class="card">
+                            <div class="card-header bg-secondary">
+                                <h4 class="card-title text-center text-white">Order Details</h4>
+                            </div>
+                            <div class="card-body" id="orderDetails" style="min-height: 474px;">
+                                <form method="POST" id="orderDetailsForm" name="orderDetailsForm" class="form-vertical" action="">
+                                    <div class="row">
+                                        <div class="col-sm-10">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="orderDetailsFormOrderNumber" name="orderDetailsFormOrderNumber" placeholder="Order Number">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <input type="submit" class="btn btn-secondary float-right" id="orderDetailsFormAddButton" name="orderDetailsFormAddButton">
+                                        </div>
+                                    </div>
+                                </form>
+                                <table class="table table-bordered table-striped" id="orderDetailsTable">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center" width="48%">Name</th>
+                                            <th class="text-center" width="5%">Qty</th>
+                                            <th class="text-center" width="15%">Price</th>
+                                            <th class="text-center" width="10%">Discount</th>
+                                            <th width="20%">Net <i class="fa fa-rupee-sign"></i></th>
+                                            <th class="text-center" width="2%"><i class="fa fa-times"></i></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr id="orderDues">
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="text-right">Dues</td>
+                                        <td id="dueAmount" class="text-right"></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr id="netPaid">
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="text-right">Net Paid</td>
+                                        <td class="text-right" id="orderNetPaid"></td>
+                                        <td></td>
+                                    </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th>Total</th>
+                                            <td class="text-right">0</td>
+                                            <td class="text-right">0</td>
+                                            <td class="text-right">0</td>
+                                            <th class="text-right">0</th>
+                                            <th class="text-right"></th>                                            
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label class="form-control" id="orderDetailsFormOrderStatus" name="orderDetailsFormOrderStatus">Order Status</label>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-secondary float-right d-print-none btnSize" id="orderBuyButton" name="orderBuyButton">Buy</button>
+                                            <button type="submit" class="btn btn-secondary float-right d-print-none btnSize" id="orderPrintButton" name="orderPrintButton">Print</button>
+                                            <button type="submit" class="btn btn-secondary float-right d-print-none btnSize mr-1" id="orderCancelButton" name="orderCancelButton">Cancel</button>
+                                        </div>
+                                    </div>
+                                </div>                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container w-50" id="printPage" style="display:none;">
+        <div class="row">
+            <div class="col">
+                <h2 class="text-center text-secondary p-2" style="border: 1px dotted #ddd">Invoice Management System</h2>
+            </div>
+        </div>
+        <div class="row"><div class="col" id="statusMessage"></div></div>        
+        <!-- This code will print the order. -->
+        <div class="row">
+            <div class="col">
+				<div class="form-group">
+					<input type="text" class="form-control" id="printPageOrderCustomerName" name="printPageOrderCustomerName" placeholder="Customer Name" readonly>
+				</div>
+			</div>
+            <div class="col">
+				<div class="form-group">
+					<input type="text" class="form-control" id="printPageOrderCustomerContact" name="printPageOrderCustomerContact" placeholder="Customer Contact" readonly>
+				</div>
+			</div>
+            <div class="col">
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="printPageOrderNumber" name="printPageOrderNumber" placeholder="Number" readonly>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="printPageOrderDate" name="printPageOrderDate" placeholder="Order" readonly>
+                        </div>
+                    </div>
+                </div>
+			</div>
+        </div>
+		<div class="row">
+            <div class="col">
+				<div class="form-group">
+					<input type="text" class="form-control" id="printPageOrderCustomerZip" name="printPageOrderCustomerZip" placeholder="Customer Zip" readonly>
+				</div>
+			</div>
+            <div class="col">
+				<div class="form-group">
+					<input type="text" class="form-control" id="printPageOrderCustomerCity" name="printPageOrderCustomerCity" placeholder="Customer City" readonly>
+				</div>
+			</div>
+			<div class="col">
+				<div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="printPageOrderCustomerState" name="printPageOrderCustomerState" placeholder="Customer State" readonly>
+                        </div>
+                    </div>                
+                    <div class="col">
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="printPageOrderStatus" name="printPageOrderStatus" placeholder="Status" readonly>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+		<div class="row">
+			<div class="col">
+				<table class="table table-bordered table-striped" id="orderPrintPageTable">
+					<thead>
+						<tr>
+							<th width="40%">Product Name</th>
+							<th width="15%">Quantity</th>
+							<th width="15%">Sell Price</th>
+							<th width="15%">Discount</th>
+                            <th width="20%">Net <i class="fa fa-rupee-sign"></i></th>
+						</tr>
+					</thead>
+					<tbody></tbody>
+					<tfoot></tfoot>
+				</table>
+                <button type="submit" class="btn btn-secondary float-right d-print-none" style="width:72px;" id="printPagePrintButton" name="printPagePrintButton">Print</button> 
+                <button type="submit" class="btn btn-secondary float-right d-print-none mr-1" style="width:72px;" id="printPageNewOrderButton" name="printPageNewOrderButton">New</button>
+			</div>
+		</div>
+    </div>
+    {% endblock %}
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script type="text/javascript">        
+    jQuery(document).ready(function (){        
+        // It will set date field with current date. 
+        var date = new Date();
+        var today = date.getDate();
+        var month = date.getMonth() + 1;
+        var year = date.getFullYear();
+        var currentDate = (today < 10 ? '0' : '') + today + '/' + (month < 10 ? '0' : '') + month + '/' + year;
+        
+        var totalProduct = 0, totalSellPrice = 0, totalDiscount = 0, totalPayable = 0, prd=0, customerContact="", orderDate="", customerDues="";
+          
+        // This code will display New Customer Registration Form.
+        jQuery("#oldCustomerFormCustomerRegisterButton").click(function(e){
+           jQuery("#newCustomerFormCustomerUpdateButton").attr("data-target", "#newCustomerCard, #updateCustomerCard");
+           jQuery("#newCustomerFormBackButton").attr("data-target", "#newCustomerCard, #oldCustomerCard");
+           jQuery("#orderProductFormNewProductButton").attr("data-target", "#orderProductCard, #newProductCard, #newCustomerCard");
+           jQuery("#orderProductFormUpdateProductButton").attr("data-target", "#orderProductCard, #updateProductCard, #newCustomerCard");
+           jQuery("#newProductFormBackButton").attr("data-target", "#orderProductCard, #newProductCard, #newCustomerCard");
+           jQuery("#updateProductFormBackButton").attr("data-target", "#orderProductCard, #updateProductCard, #newCustomerCard");
+           jQuery("#oldCustomerForm").trigger("reset");
+        });
+
+        // This code will display the Customer Updation Form from the Old Customer Form.
+        jQuery("#oldCustomerFormCustomerUpdateButton").click(function(e){
+           jQuery("#updateCustomerFormCustomerRegisterButton").attr("data-target", "#newCustomerCard, #updateCustomerCard");
+           jQuery("#updateCustomerFormBackButton").attr("data-target", "#updateCustomerCard, #oldCustomerCard");
+           jQuery("#orderProductFormNewProductButton").attr("data-target", "#orderProductCard, #newProductCard, #updateCustomerCard");
+           jQuery("#orderProductFormUpdateProductButton").attr("data-target", "#orderProductCard, #updateProductCard, #updateCustomerCard");
+           jQuery("#newProductFormBackButton").attr("data-target", "#orderProductCard, #newProductCard, #updateCustomerCard");
+           jQuery("#updateProductFormBackButton").attr("data-target", "#orderProductCard, #updateProductCard, #updateCustomerCard");
+           jQuery("#oldCustomerForm").trigger("reset");
+        });
+
+        // This code will display the Customer Updation Form from the New Customer Registration Form.
+        jQuery("#newCustomerFormCustomerUpdateButton").click(function(e){
+           jQuery("#updateCustomerFormCustomerRegisterButton").attr("data-target", "#newCustomerCard, #updateCustomerCard");
+           jQuery("#updateCustomerFormBackButton").attr("data-target", "#updateCustomerCard, #oldCustomerCard");
+           jQuery("#orderProductFormNewProductButton").attr("data-target", "#orderProductCard, #newProductCard, #updateCustomerCard");
+           jQuery("#orderProductFormUpdateProductButton").attr("data-target", "#orderProductCard, #updateProductCard, #updateCustomerCard");
+           jQuery("#newProductFormBackButton").attr("data-target", "#orderProductCard, #newProductCard, #updateCustomerCard");
+           jQuery("#updateProductFormBackButton").attr("data-target", "#orderProductCard, #updateProductCard, #updateCustomerCard");
+           jQuery("#newCustomerForm").trigger("reset");
+        });
+        
+        // This code will display the Customer Registration Form from the Customer Updation Form.
+        jQuery("#updateCustomerFormCustomerRegisterButton").click(function(e){
+           jQuery("#updateCustomerFormCustomerUpdateButton").attr("data-target", "#newCustomerCard, #updateCustomerCard");
+           jQuery("#updateCustomerFormBackButton").attr("data-target", "#updateCustomerCard, #oldCustomerCard");
+           jQuery("#orderProductFormNewProductButton").attr("data-target", "#orderProductCard, #newProductCard, #newCustomerCard");
+           jQuery("#orderProductFormUpdateProductButton").attr("data-target", "#orderProductCard, #updateProductCard, #newCustomerCard");
+           jQuery("#newProductFormBackButton").attr("data-target", "#orderProductCard, #newProductCard, #updateCustomerCard");
+           jQuery("#updateProductFormBackButton").attr("data-target", "#orderProductCard, #updateProductCard, #newCustomerCard");
+           jQuery("#updateCustomerFormCustomerCity").replaceWith(jQuery('<input type="text" class="form-control" id="updateCustomerFormCustomerCity" name="updateCustomerFormCustomerCity" placeholder="City" readonly>'));
+           jQuery("#updateCustomerForm").trigger("reset");
+        });
+        
+        // This code will display Old Customer Form from the New Customer Form.
+        jQuery("#newCustomerFormBackButton").click(function(e){
+           jQuery("#oldCustomerFormCustomerRegisterButton").attr("data-target", "#newCustomerCard, #oldCustomerCard");
+           jQuery("#oldCustomerFormCustomerUpdateButton").attr("data-target", "#updateCustomerCard, #oldCustomerCard");
+           jQuery("#orderProductFormNewProductButton").attr("data-target", "#orderProductCard, #newProductCard, #oldCustomerCard");
+           jQuery("#orderProductFormUpdateProductButton").attr("data-target", "#orderProductCard, #updateProductCard, #oldCustomerCard");
+           jQuery("#newProductFormBackButton").attr("data-target", "#orderProductCard, #newProductCard, #updateCustomerCard");
+           jQuery("#updateProductFormBackButton").attr("data-target", "#orderProductCard, #updateProductCard, #oldCustomerCard");
+           jQuery("#newCustomerForm").trigger("reset");
+        });
+        
+        // This code will display New Customer Details Form from the Customer Updation Form.
+        jQuery("#updateCustomerFormBackButton").click(function(e){
+           jQuery("#detailsCustomerUpdationButton").attr("data-target", "#newCustomerCard, #oldCustomerCard");
+           jQuery("#detailsCustomerRegistrationButton").attr("data-target", "#newCustomerCard, #oldCustomerCard");
+           jQuery("#orderProductFormNewProductButton").attr("data-target", "#orderProductCard, #newProductCard, #oldCustomerCard");
+           jQuery("#orderProductFormUpdateProductButton").attr("data-target", "#orderProductCard, #updateProductCard, #oldCustomerCard");
+           jQuery("#newProductFormBackButton").attr("data-target", "#orderProductCard, #newProductCard, #updateCustomerCard");
+           jQuery("#updateProductFormBackButton").attr("data-target", "#orderProductCard, #updateProductCard, #oldCustomerCard");           
+           jQuery("#updateCustomerFormCustomerCity").replaceWith(jQuery('<input type="text" class="form-control" id="updateCustomerFormCustomerCity" name="updateCustomerFormCustomerCity" placeholder="City" readonly>'));
+           jQuery("#updateCustomerForm").trigger("reset");
+        });
+
+        // This code will validate the Customer Restration Form.
+        jQuery("#newCustomerFormCustomerRegisterButton").click(function(e){
+            e.preventDefault();
+            jQuery("#newCustomerForm").validate({
+                onkeyup: false,
+                rules:{
+                    newCustomerFormCustomerName      : { required : true },
+                    newCustomerFormCustomerEmail     : { required : true, email: true, maxlength: 255 },
+                    newCustomerFormCustomerContact   : { required : true, minlength: 10, maxlength: 11, digits: true },
+                    newCustomerFormCustomerZip       : { required : true, digits: true },
+                    newCustomerFormCustomerCity      : { required : true },
+                    newCustomerFormCustomerDistrict  : { required : true },
+                    newCustomerFormCustomerState     : { required : true },
+                    newCustomerFormCustomerCountry   : { required : true }
+                },
+                messages:{ 
+                    newCustomerFormCustomerName     : { required: "Please fill customer name." },
+                    newCustomerFormCustomerEmail    : { required : "Please fill customer email.", email: "Email must be an valid email address.", maxlength: "Username must not greater than 255 characters" },
+                    newCustomerFormCustomerContact  : { required: "Please fill contact number.", minlength: "Contact number must not less than 10 characters",
+                                                       maxlength: "Contact number must not greater than 11 characters", digits: "Contact number must contain only digits." },
+                    newCustomerFormCustomerZip      : { required: "Please fill pincode or zip number.", digits: "Zip code must contain only digits." },
+                    newCustomerFormCustomerCity     : { required: "Please select a city." },
+                    newCustomerFormCustomerDistrict : { required: "Please select a district." },
+                    newCustomerFormCustomerState    : { required: "Please select a state." },
+                    newCustomerFormCustomerCountry  : { required: "Please select a country." }
+                },
+                errorElement: 'span',
+                errorPlacement: function (error, element) {
+                    error.addClass('invalid-feedback');
+                    element.closest('.form-group').append(error);
+                },
+                highlight: function (element, errorClass, validClass) {
+                    $(element).addClass('is-invalid');
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    $(element).removeClass('is-invalid');
+                }
+            });
+            if (true === jQuery("#newCustomerForm").valid()){
+                jQuery("#statusMessage").prop("style", 'display:"block;"');
+                jQuery("#statusMessage :first-child").remove();
+
+                // This code will make an ajax request to store a new customer into customers table.
+                var url = "{{ url_for('register') }}";
+                jQuery.ajax({
+                    type: "POST",
+                    url: url,
+                    dataType: 'json',
+                    data: {
+                        "newCustomerName" : jQuery('#newCustomerFormCustomerName').val(),
+                        "newCustomerEmail" : jQuery('#newCustomerFormCustomerEmail').val(),
+                        "newCustomerContact" : jQuery('#newCustomerFormCustomerContact').val(),
+                        "newCustomerZip" : jQuery('#newCustomerFormCustomerZip').val(),
+                        "newCustomerCity" : jQuery('#newCustomerFormCustomerCity').val(),
+                        "newCustomerDistrict" : jQuery('#newCustomerFormCustomerDistrict').val(),
+                        "newCustomerState" : jQuery('#newCustomerFormCustomerState').val(),
+                        "newCustomerCountry" : jQuery('#newCustomerFormCustomerCountry').val()
+                    }
+                })
+                .done(function(data){
+                    if("success" === data.status){
+                        jQuery('#newCustomerFormCustomerName').val("");
+                        jQuery('#newCustomerFormCustomerEmail').val("");
+                        jQuery('#newCustomerFormCustomerContact').val("");
+                        jQuery('#newCustomerFormCustomerZip').val("");
+                        jQuery('#newCustomerFormCustomerCity').val("");
+                        jQuery('#newCustomerFormCustomerDistrict').val("");
+                        jQuery('#newCustomerFormCustomerState').val("");
+                        jQuery('#newCustomerFormCustomerCountry').val("");
+                        jQuery("#statusMessage").html('<div class="alert alert-' + data.status + '">' + data.statusMessage + '</div>');
+                        jQuery("#statusMessage").fadeOut(5000);
+                    }
+                    else{
+                        jQuery("#statusMessage").html('<div class="alert alert-' + data.status + '">' + data.statusMessage + '</div>');
+                        jQuery("#statusMessage").fadeOut(5000);
+                    }
+                });
+            }
+        });
+
+        // This code will display New Product Form from the Order Product Form.
+        jQuery("#newProductFormNewProductButton").click(function(e){
+            e.preventDefault();
+            jQuery("#newProductForm").validate({
+                onkeyup: false,
+                rules:{
+                    newProductFormProductName      : { required : true },                    
+                    newProductFormProductCostPrice : { required : true, number : true },
+                    newProductFormProductSellPrice : { required : true, number : true },
+                    newProductFormProductQuantity  : { required : true, digits : true },
+                    newProductFormProductDiscount  : { number : true }
+                },
+                messages:{
+                    newProductFormProductName      : { required : "Please fill product name." },
+                    newProductFormProductCostPrice : { required : "Please fill product cost price.",   number : "Product cost price must be numeric value." },
+                    newProductFormProductSellPrice : { required : "Please fill product sell price.",   number : "Product sell price must be numeric value." },
+                    newProductFormProductQuantity  : { required : "Please fill product quantity.",     digits : "Product quantity must be whole numeric value." },
+                    newProductFormProductDiscount  : { number   : "Product discount must be numeric value." }
+                },
+                errorElement: 'span',
+                errorPlacement: function (error, element) {
+                    error.addClass('invalid-feedback');
+                    element.closest('.form-group').append(error);
+                },
+                highlight: function (element, errorClass, validClass) {
+                    $(element).addClass('is-invalid');
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    $(element).removeClass('is-invalid');
+                }
+            });
+    
+            // This code will make an ajax request to store a new product into products table.
+            if (true === jQuery("#newProductForm").valid()){
+                jQuery("#statusMessage").prop("style", 'display:"block;"');
+                jQuery("#statusMessage :first-child").remove();
+
+                var url = "{{ url_for('productAdd') }}";
+                jQuery.ajax({
+                    type: "POST",
+                    url: url,
+                    dataType: 'json',
+                    data: {
+                        "newProductName":jQuery('#newProductFormProductName').val(),
+                        "newProductCostPrice":jQuery('#newProductFormProductCostPrice').val(),
+                        "newProductSellPrice":jQuery('#newProductFormProductSellPrice').val(),
+                        "newProductQuantity":jQuery('#newProductFormProductQuantity').val(),
+                        "newProductDiscount": ("" !== jQuery('#newProductFormProductDiscount').val()) ? jQuery('#newProductFormProductDiscount').val() : 0
+                    }
+                })
+                .done(function (data) {
+                    jQuery("#statusMessage").html('<div class="alert alert-' + data.status + '">' + data.statusMessage + '</div>');
+                    jQuery("#statusMessage").fadeOut(5000);                
+                    jQuery('#newProductFormProductName').val(""),
+                    jQuery('#newProductFormProductCostPrice').val("")
+                    jQuery('#newProductFormProductSellPrice').val("")
+                    jQuery('#newProductFormProductQuantity').val("")
+                    jQuery('#newProductFormProductDiscount').val("")
+                });
+            }
+        });
+        
+        // This code will display New Product Form from the Order Product Form.
+        jQuery("#updateProductFormUpdateProductButton").click(function(e){
+            e.preventDefault();
+            var validator = jQuery("#updateProductForm").validate({
+                onkeyup: false,
+                rules:{
+                    updateProductFormDatalistUpdateProductName  : { required : true , minlength: 3 },
+                    updateProductFormProductName                : { required : true },                    
+                    updateProductFormProductCostPrice           : { required : true, number : true },
+                    updateProductFormProductSellPrice           : { required : true, number : true },
+                    updateProductFormProductQuantity            : { required : true, digits : true },
+                    updateProductFormProductDiscount            : { number : true }
+                },
+                messages:{
+                    updateProductFormDatalistUpdateProductName  : {required: "Please fill product name.", minlength: "Minimum 3 characters required."},
+                    updateProductFormProductName                : { required : "Please fill product name." },
+                    updateProductFormProductCostPrice           : { required : "Please fill product cost price.",   number : "Product cost price must be numeric value." },
+                    updateProductFormProductSellPrice           : { required : "Please fill product sell price.",   number : "Product sell price must be numeric value." },
+                    updateProductFormProductQuantity            : { required : "Please fill product quantity.",     digits : "Product quantity must be whole numeric value." },
+                    updateProductFormProductDiscount            : { number : "Product discount must be numeric value." }
+                },
+                errorElement: 'span',
+                errorPlacement: function (error, element) {
+                    error.addClass('invalid-feedback');
+                    element.closest('.form-group').append(error);
+                },
+                highlight: function (element, errorClass, validClass) {
+                    $(element).addClass('is-invalid');
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    $(element).removeClass('is-invalid');
+                }
+            });
+    
+            // This code will make an ajax request to store a new product into products table.
+            if(true === validator.element("#updateProductFormDatalistUpdateProductName")){
+                if (true === jQuery("#updateProductForm").valid()){
+                    jQuery("#statusMessage").prop("style", 'display:"block;"');
+                    jQuery("#statusMessage :first-child").remove();
+
+                    var url = "{{ url_for('productAdd') }}";
+                    jQuery.ajax({
+                        type: "POST",
+                        url: url,
+                        dataType: 'json',
+                        data: {
+                            "datalistProductName":jQuery('#updateProductFormDatalistUpdateProductName').val(),
+                            "updateProductName":jQuery('#updateProductFormProductName').val(),
+                            "updateProductCostPrice":jQuery('#updateProductFormProductCostPrice').val(),
+                            "updateProductSellPrice":jQuery('#updateProductFormProductSellPrice').val(),
+                            "updateProductQuantity":jQuery('#updateProductFormProductQuantity').val(),
+                            "updateProductDiscount": ("" !== jQuery('#updateProductFormProductDiscount').val()) ? jQuery('#updateProductFormProductDiscount').val() : 0
+                        }
+                    })
+                    .done(function (data) {
+                        if(undefined !== data.productDetails){
+                            jQuery('#updateProductFormDatalistUpdateProductName').val(data.productDetails.updateProductName)
+                            jQuery('#updateProductFormProductName').val(data.productDetails.updateProductName);
+                            jQuery('#updateProductFormProductCostPrice').val(data.productDetails.updateProductCostPrice);
+                            jQuery('#updateProductFormProductSellPrice').val(data.productDetails.updateProductSellPrice);
+                            jQuery('#updateProductFormProductQuantity').val(data.productDetails.updateProductQuantity);
+                            jQuery('#updateProductFormProductDiscount').val(data.productDetails.updateProductDiscount);
+                            jQuery("#statusMessage").html('<div class="alert alert-' + data.status + '">' + data.statusMessage + '</div>');
+                            jQuery("#statusMessage").fadeOut(5000);}                                                
+                    });
+                }
+            }
+        });
+        
+        // It will fill all customer details in updation mode.
+        jQuery("#updateProductFormDatalistUpdateProductName").blur(function(e){
+            e.preventDefault();
+            var validator = jQuery("#updateProductForm").validate({
+                onkeyup: false,
+                rules:{ updateProductFormDatalistUpdateProductName  : { required : true , minlength: 3 }},
+                messages:{ updateProductFormDatalistUpdateProductName  : {required: "Please fill product name.", minlength: "Minimum 3 characters required."}},
+                errorElement: 'span',
+                errorPlacement: function (error, element) {
+                    error.addClass('invalid-feedback');
+                    element.closest('.form-group').append(error);
+                },
+                highlight: function (element, errorClass, validClass) {
+                    $(element).addClass('is-invalid');
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    $(element).removeClass('is-invalid');
+                }
+            });
+            if(true == validator.element("#updateProductFormDatalistUpdateProductName")){
+                jQuery("#statusMessage").prop("style", 'display:"block;"');
+                jQuery("#statusMessage :first-child").remove();
+                jQuery('#updateProductFormProductName').val("");
+                jQuery('#updateProductFormProductCostPrice').val("");
+                jQuery('#updateProductFormProductSellPrice').val("");
+                jQuery('#updateProductFormProductQuantity').val("");
+                jQuery('#updateProductFormProductDiscount').val("");
+
+                jQuery.ajax({
+                    type: "POST",
+                    url: "{{ url_for('productAdd') }}",
+                    dataType: 'json',
+                    data: { "updateProductName" : jQuery('#updateProductFormDatalistUpdateProductName').val() }
+                })
+                .done(function(data){
+                    if(undefined !== data.productDetails){
+                        jQuery('#updateProductForm :input[type="text"]').prop("readonly", false);
+                        jQuery('#updateProductFormProductName').val(data.productDetails.updateProductName);
+                        jQuery('#updateProductFormProductCostPrice').val(data.productDetails.updateProductCostPrice);
+                        jQuery('#updateProductFormProductSellPrice').val(data.productDetails.updateProductSellPrice);
+                        jQuery('#updateProductFormProductQuantity').val(data.productDetails.updateProductQuantity);
+                        jQuery('#updateProductFormProductDiscount').val(data.productDetails.updateProductDiscount);
+                        jQuery('#updateProductForm :input[type="text"]').not("#updateProductFormDatalistUpdateProductName").focus().blur();
+                    }
+                    else{
+                        jQuery("#statusMessage").html('<div class="alert alert-' + data.status + '">' + data.statusMessage + '</div>');
+                        jQuery("#statusMessage").fadeOut(5000);
+                    }
+                });
+            }
+            else{
+                jQuery('#updateProductFormProductName').val("").prop("readonly", true);
+                jQuery('#updateProductFormProductCostPrice').val("").prop("readonly", true);
+                jQuery('#updateProductFormProductSellPrice').val("").prop("readonly", true);
+                jQuery('#updateProductFormProductSellPrice').val("").prop("readonly", true);
+                jQuery('#updateProductFormProductQuantity').val("").prop("readonly", true);
+                jQuery('#updateProductFormProductDiscount').val("").prop("readonly", true);
+            }
+        });
+        
+        // It will fill product name in dropdown menu on keyup event.
+        jQuery("#orderProductFormProductName, #updateProductFormDatalistUpdateProductName").keyup(function(e){
+            e.preventDefault();
+            if ((jQuery("#orderProductFormProductName").val().length > 2) || (jQuery("#updateProductFormDatalistUpdateProductName").val().length > 2)){
+                jQuery.ajax({
+                    type: "POST",
+                    url: "{{ url_for('dynamicProductName') }}",
+                    dataType: 'json',
+                    data: ("" != jQuery("#orderProductFormProductName").val().length > 2) ? {"orderProductName" : jQuery('#orderProductFormProductName').val()} : {"updateProductName" : jQuery('#updateProductFormDatalistUpdateProductName').val()}
+                })
+                .done(function(data){
+                    if("" != jQuery("#orderProductFormProductName").val()){
+                        jQuery('#orderProductFormDatalistProductName').empty();
+                        for (i=0; i<data.allProductName.length; i++){                 
+                            jQuery('#orderProductFormDatalistProductName').append('<option value="' + data.allProductName[i] + '"></option>');
+                        }
+                    }
+                    else{
+                        jQuery('#updateProductFormDatalistProductName').empty();
+                        for (i=0; i<data.allProductName.length; i++){                 
+                            jQuery('#updateProductFormDatalistProductName').append('<option value="' + data.allProductName[i] + '"></option>');
+                        }
+                    }
+                });
+            }
+        });
+        
+        // This code will validate the Customer Updation Form.
+        jQuery("#updateCustomerFormCustomerUpdateButton").click(function(e){
+            e.preventDefault();
+            var validator = jQuery("#updateCustomerForm").validate({
+                onkeyup: false,
+                rules:{
+                    updateCustomerFormUpdateCustomerName : { required : true , minlength: 3 },
+                    updateCustomerFormCustomerName       : { required : true },
+                    updateCustomerFormCustomerEmail      : { required : true, email: true, maxlength: 255 },
+                    updateCustomerFormCustomerContact    : { required : true, minlength: 10, maxlength: 11, digits: true },
+                    updateCustomerFormCustomerZip        : { required : true, digits: true },
+                    updateCustomerFormCustomerCity       : { required : true },
+                    updateCustomerFormCustomerDistrict   : { required : true },
+                    updateCustomerFormCustomerState      : { required : true },
+                    updateCustomerFormCustomerCountry    : { required : true }
+                },
+                messages:{ 
+                    updateCustomerFormUpdateCustomerName : { required : "Please fill customer name.", minlength: "Minimum 3 characters required."},
+                    updateCustomerFormCustomerName       : { required : "Please fill customer name." },
+                    updateCustomerFormCustomerEmail      : { required : "Please fill customer email.", email: "Email must be an valid email address.", maxlength: "Username must not greater than 255 characters" },
+                    updateCustomerFormCustomerContact    : { required : "Please fill contact number.", minlength: "Contact number must not less than 10 characters",
+                                                             maxlength : "Contact number must not greater than 11 characters", digits: "Contact number must contain only digits." },
+                    updateCustomerFormCustomerZip        : { required : "Please fill pincode or zip number.", digits: "Zip code must contain only digits." },
+                    updateCustomerFormCustomerCity       : { required : "Please select a city." },
+                    updateCustomerFormCustomerDistrict   : { required : "Please select a district." },
+                    updateCustomerFormCustomerState      : { required : "Please select a state." },
+                    updateCustomerFormCustomerCountry    : { required : "Please select a country." }
+                },
+                errorElement: 'span',
+                errorPlacement: function (error, element) {
+                    error.addClass('invalid-feedback');
+                    element.closest('.form-group').append(error);
+                },
+                highlight: function (element, errorClass, validClass) {
+                    $(element).addClass('is-invalid');
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    $(element).removeClass('is-invalid');
+                }
+            });
+            if(true === validator.element("#updateCustomerFormUpdateCustomerName")){
+                if (true === jQuery("#updateCustomerForm").valid()){
+                    jQuery("#statusMessage").prop("style", 'display:"block;"');
+                    jQuery("#statusMessage :first-child").remove();
+
+                    // This code will make an ajax request to update customer details.
+                    var url = "{{ url_for('register') }}";
+                    jQuery.ajax({
+                        type: "POST",
+                        url: url,
+                        dataType: 'json',
+                        data: {
+                            "datalistUpdateCustomerName" : jQuery('#updateCustomerFormUpdateCustomerName').val(),
+                            "customerContact" : customerContact,
+                            "updateCustomerName" : jQuery('#updateCustomerFormCustomerName').val(),
+                            "updateCustomerEmail" : jQuery('#updateCustomerFormCustomerEmail').val(),
+                            "updateCustomerContact" : jQuery('#updateCustomerFormCustomerContact').val(),
+                            "updateCustomerZip" : jQuery('#updateCustomerFormCustomerZip').val(),
+                            "updateCustomerCity" : jQuery('#updateCustomerFormCustomerCity').val(),
+                            "updateCustomerDistrict" : jQuery('#updateCustomerFormCustomerDistrict').val(),
+                            "updateCustomerState" : jQuery('#updateCustomerFormCustomerState').val(),
+                            "updateCustomerCountry" : jQuery('#updateCustomerFormCustomerCountry').val()
+                        }
+                    })
+                    .done(function(data){                        
+                        if(undefined !== data.customerDetails){
+                            jQuery("#statusMessage").html('<div class="alert alert-' + data.status + '">' + data.statusMessage + '</div>');
+                            jQuery("#statusMessage").fadeOut(5000);jQuery('#updateCustomerFormCustomerName').val(data.customerDetails.updateCustomerName);
+                            jQuery('#updateCustomerFormCustomerEmail').val(data.customerDetails.updateCustomerEmail);
+                            jQuery('#updateCustomerFormCustomerContact').val(data.customerDetails.updateCustomerContact);
+                            jQuery('#updateCustomerFormCustomerZip').val(data.customerDetails.updateCustomerZip);
+                            jQuery('#updateCustomerFormCustomerCity').val(data.customerDetails.updateCustomerCity);
+                            jQuery('#updateCustomerFormCustomerDistrict').val(data.customerDetails.updateCustomerDistrict);
+                            jQuery('#updateCustomerFormCustomerState').val(data.customerDetails.updateCustomerState);
+                            jQuery('#updateCustomerFormCustomerCountry').val(data.customerDetails.updateCustomerCountry);
+                            jQuery('#updateCustomerFormUpdateCustomerName').val(data.customerDetails.updateCustomerName);                    
+                            customerContact = data.customerDetails.updateCustomerContact;
+                        }                        
+                        else{
+                            jQuery("#statusMessage").html('<div class="alert alert-' + data.status + '">' + data.statusMessage + '</div>');
+                            jQuery("#statusMessage").fadeOut(5000);
+                        }
+                    });
+                }
+            }
+        });  
+
+        // It will fill all customer details in updation mode.
+        jQuery("#updateCustomerFormUpdateCustomerName").blur(function(e){
+            e.preventDefault();
+            var validator = jQuery("#updateCustomerForm").validate({
+                onkeyup: false,
+                rules:{ updateCustomerFormUpdateCustomerName : { required : true , minlength: 3 }},
+                messages:{ updateCustomerFormUpdateCustomerName : {required: "Please fill customer name.", minlength: "Minimum 3 characters required."}},
+                errorElement: 'span',
+                errorPlacement: function (error, element) {
+                    error.addClass('invalid-feedback');
+                    element.closest('.form-group').append(error);
+                },
+                highlight: function (element, errorClass, validClass) { jQuery(element).addClass('is-invalid'); },
+                unhighlight: function (element, errorClass, validClass) { jQuery(element).removeClass('is-invalid'); }
+            });
+            if(true === validator.element("#updateCustomerFormUpdateCustomerName")){
+                jQuery("#statusMessage").prop("style", 'display:"block;"');
+                jQuery("#statusMessage :first-child").remove();
+                jQuery('#updateCustomerForm :input[type="text"]').not("#updateCustomerFormUpdateCustomerName, #updateCustomerFormCustomerDistrict, #updateCustomerFormCustomerState, #updateCustomerFormCustomerCountry").prop("readonly", false);
+                
+                jQuery.ajax({
+                    type: "POST",
+                    url: "{{ url_for('customerDetailsFill') }}",
+                    dataType: 'json',
+                    data: { "updateCustomerName" : jQuery('#updateCustomerFormUpdateCustomerName').val(), "updateCustomerContact" : customerContact }
+                })
+                .done(function(data){
+                    if(undefined !== data.customerDetails){
+                        jQuery('#updateCustomerForm :input[type="text"]').not("#updateCustomerFormUpdateCustomerName, #updateCustomerFormCustomerDistrict, #updateCustomerFormCustomerState, #updateCustomerFormCustomerCountry").prop("readonly", false);
+                        jQuery('#updateCustomerFormCustomerName').val(data.customerDetails.updateCustomerName);
+                        jQuery('#updateCustomerFormCustomerEmail').val(data.customerDetails.updateCustomerEmail);
+                        jQuery('#updateCustomerFormCustomerContact').val(data.customerDetails.updateCustomerContact);
+                        jQuery('#updateCustomerFormCustomerZip').val(data.customerDetails.updateCustomerZip);
+                        jQuery('#updateCustomerFormCustomerCity').val(data.customerDetails.updateCustomerCity);
+                        jQuery('#updateCustomerFormCustomerDistrict').val(data.customerDetails.updateCustomerDistrict);
+                        jQuery('#updateCustomerFormCustomerState').val(data.customerDetails.updateCustomerState);
+                        jQuery('#updateCustomerFormCustomerCountry').val(data.customerDetails.updateCustomerCountry);
+                        jQuery('#updateCustomerForm :input[type="text"]').not("#updateCustomerFormUpdateCustomerName").focus().blur();                    
+                    }
+                    else{
+                        jQuery("#statusMessage").html('<div class="alert alert-' + data.status + '">' + data.statusMessage + '</div>');
+                        jQuery("#statusMessage").fadeOut(5000);
+                        jQuery('#updateCustomerForm :input[type="text"]').not("#updateCustomerFormUpdateCustomerName").val("").not("#updateCustomerFormCustomerDistrict, #updateCustomerFormCustomerState, #updateCustomerFormCustomerCountry").prop("readonly", true);
+                    }
+                });
+            }
+            else{
+                jQuery('#updateCustomerForm :input[type="text"]').val("").not("#updateCustomerFormUpdateCustomerName").prop("readonly", true);
+            }
+        });
+        
+        // It will set updateCustomerFormCustomerCity text box to updateCustomerFormCustomerCity dropdown menu.
+        jQuery("#updateCustomerFormCustomerZip").change(function(e){
+            jQuery("#updateCustomerFormCustomerCity").replaceWith(jQuery('<select class="form-control" id="updateCustomerFormCustomerCity" name="updateCustomerFormCustomerCity">\
+                <option value="">Select</option></select>'));
+        });
+
+        // This code determine whether blur method will work on customer zip or not?
+        jQuery("#newCustomerFormCustomerZip").change(function(e){
+            jQuery(this).attr("changed", true);
+        });
+        
+        // This code determine whether blur method will work on customer zip or not?
+        jQuery("#updateCustomerFormCustomerZip").change(function(e){
+            jQuery(this).attr("changed", true);
+        });
+        
+        // This code will make an ajax request to get city, district, state according to pincode.
+        jQuery('#newCustomerFormCustomerZip, #updateCustomerFormCustomerZip').blur(function (e) {         
+            e.preventDefault();
+            if(("" != jQuery('#newCustomerFormCustomerZip').val()) || ("" != jQuery('#updateCustomerFormCustomerZip').val())){
+                if("true" === jQuery(this).attr("changed")){                    
+                    jQuery.ajax({
+                        type: "POST",
+                        url: "{{ url_for('pincode') }}",
+                        dataType: 'json',
+                        data: ("" != jQuery('#newCustomerFormCustomerZip').val()) ? { "pincode" : jQuery('#newCustomerFormCustomerZip').val() } : { "pincode" : jQuery('#updateCustomerFormCustomerZip').val() }
+                    })
+                    .done(function (data) {
+                        if("" != jQuery('#newCustomerFormCustomerZip').val()){
+                            if(data.result.PostOffice.length > 1){
+                                jQuery('#newCustomerFormCustomerCity').find('option').not(':first').remove();
+                                for (i=0; i<data.result.PostOffice.length; i++){
+                                    jQuery('#newCustomerFormCustomerCity').append('<option value="'+ data.result.PostOffice[i].Name + '">'+ data.result.PostOffice[i].Name +'</option>');
+                                }
+                            }
+                            else{
+                                jQuery('#newCustomerFormCustomerCity').append('<option value="'+ data.result.PostOffice[i].Name.toLowerCase() + '">'+ data.result.PostOffice[i].Name +'</option>');
+                            }
+                            jQuery('#newCustomerFormCustomerDistrict').val(data.result.PostOffice[0].District);
+                            jQuery('#newCustomerFormCustomerState').val(data.result.PostOffice[0].State);
+                            jQuery('#newCustomerFormCustomerCountry').val("India");
+                        }
+                        else{
+                            if(data.result.PostOffice.length > 1){
+                                jQuery('#updateCustomerFormCustomerCity').find('option').not(':first').remove();
+                                for (i=0; i<data.result.PostOffice.length; i++){
+                                    jQuery('#updateCustomerFormCustomerCity').append('<option value="'+ data.result.PostOffice[i].Name + '">'+ data.result.PostOffice[i].Name +'</option>');
+                                }
+                            }
+                            else{
+                                jQuery('#updateCustomerFormCustomerCity').append('<option value="'+ data.result.PostOffice[i].Name + '">'+ data.result.PostOffice[i].Name +'</option>');
+                            }
+                            jQuery('#updateCustomerFormCustomerDistrict').val(data.result.PostOffice[0].District);
+                            jQuery('#updateCustomerFormCustomerState').val(data.result.PostOffice[0].State);
+                            jQuery('#updateCustomerFormCustomerCountry').val("India");
+                        }                    
+                    });
+                    jQuery(this).attr("changed", false);                
+                }
+            }            
+        });
+
+        // It will add customer name dynamically in datalist menu on keyup event.
+        jQuery("#oldCustomerFormOrderCustomerName, #updateCustomerFormUpdateCustomerName").keyup(function(e){
+            if ((jQuery("#oldCustomerFormOrderCustomerName").val().length > 2) || (jQuery("#updateCustomerFormUpdateCustomerName").val().length > 2)){
+                jQuery.ajax({
+                    type: "POST",
+                    url: "{{ url_for('dynamicCustomerName') }}",
+                    dataType: 'json',
+                    data: ("" !== jQuery("#oldCustomerFormOrderCustomerName").val()) ? { "orderCustomerName" : jQuery('#oldCustomerFormOrderCustomerName').val() } : { "updateCustomerName" : jQuery('#updateCustomerFormUpdateCustomerName').val() }
+                })
+                .done(function(data){
+                    if("" != jQuery("#oldCustomerFormOrderCustomerName").val()){
+                        jQuery('#oldCustomerFormDatalistCustomerName').empty();
+                        for (i=0; i<data.allCustomerName.length; i++){
+                            jQuery('#oldCustomerFormDatalistCustomerName').append('<option value="' + data.allCustomerName[i][0] + '   ' + data.allCustomerName[i][1] + '">');
+                        }
+                    }
+                    else{
+                        jQuery('#updateCustomerFormDatalistCustomerName').empty();
+                        for (i=0; i<data.allCustomerName.length; i++){
+                            jQuery('#updateCustomerFormDatalistCustomerName').append('<option value="' + data.allCustomerName[i][0] + '   ' + data.allCustomerName[i][1] + '">');
+                        }
+                    }
+                });
+            }            
+            e.preventDefault();
+        });
+
+        // It will separate customer name with customer name and contact number.
+        jQuery("#oldCustomerFormOrderCustomerName, #updateCustomerFormUpdateCustomerName").change(function(){
+            var customerName;
+            if("" !== jQuery("#oldCustomerFormOrderCustomerName").val()){
+                customerName = jQuery("#oldCustomerFormOrderCustomerName").val().split("  ")[0].trim();
+                customerContact = jQuery("#oldCustomerFormOrderCustomerName").val().split("  ")[1].trim();
+                jQuery("#oldCustomerFormOrderCustomerName").val(customerName);
+            }
+            else if("" !== jQuery("#updateCustomerFormUpdateCustomerName").val()){
+                customerName = jQuery("#updateCustomerFormUpdateCustomerName").val().split("  ")[0].trim();
+                customerContact = jQuery("#updateCustomerFormUpdateCustomerName").val().split("  ")[1].trim();
+                jQuery("#updateCustomerFormUpdateCustomerName").val(customerName);
+            }
+            else{ jQuery("#updateCustomerFormDatalistCustomerName").empty(); }
+        });
+    
+        // It will fill all customer details in readonly mode.
+        jQuery("#oldCustomerFormOrderCustomerName").blur(function(e){
+            e.preventDefault();
+            jQuery("#oldCustomerForm").validate({
+                rules: { oldCustomerFormOrderCustomerName: { required : true , minlength: 3 } },
+                messages: { oldCustomerFormOrderCustomerName: {required: "Please fill customer name.", minlength: "Minimum 3 characters required."}},
+                errorElement: 'span',
+                errorPlacement: function (error, element) {
+                    error.addClass('invalid-feedback');
+                    element.closest('.form-group').append(error);
+                },
+                highlight: function (element, errorClass, validClass) {
+                    $(element).addClass('is-invalid');
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    $(element).removeClass('is-invalid');
+                }
+            });
+            if("" !== jQuery("#oldCustomerFormCustomerName")){
+                if(jQuery("#oldCustomerForm").valid()){
+                    jQuery("#statusMessage").prop("style", 'display:"block;"');
+                    jQuery("#statusMessage :first-child").remove();
+                    jQuery('#oldCustomerFormCustomerDiscount').val("");
+                    jQuery('#oldCustomerFormCustomerName').val("");
+                    jQuery('#oldCustomerFormCustomerEmail').val("");
+                    jQuery('#oldCustomerFormCustomerContact').val("");
+                    jQuery('#oldCustomerFormustomerZip').val("");
+                    jQuery('#oldCustomerFormCustomerCity').val("");
+                    jQuery('#oldCustomerFormCustomerDistrict').val("");
+                    jQuery('#oldCustomerFormCustomerState').val("");
+                    jQuery('#oldCustomerFormCustomerCountry').val("");
+                    jQuery.ajax({
+                        type: "POST",
+                        url: "{{ url_for('customerDetailsFill') }}",
+                        dataType: 'json',
+                        data: { "orderCustomerName" : jQuery('#oldCustomerFormOrderCustomerName').val(),
+                                "orderCustomerContact" : customerContact
+                        }
+                    })
+                    .done(function(data){
+                        if(undefined !== data.customerDetails){
+                            jQuery("table #orderNetPaid").prop("contenteditable", true);
+                            customerDues = data.customerDetails.oldCustomerDues;
+                            jQuery('#dueAmount').text(data.customerDetails.oldCustomerDues);
+                            jQuery('#oldCustomerFormCustomerDiscount').val(data.customerDetails.oldCustomerDiscount);
+                            jQuery('#oldCustomerFormCustomerName').val(data.customerDetails.oldCustomerName);
+                            jQuery('#oldCustomerFormCustomerEmail').val(data.customerDetails.oldCustomerEmail);
+                            jQuery('#oldCustomerFormCustomerContact').val(data.customerDetails.oldCustomerContact);
+                            jQuery('#oldCustomerFormCustomerZip').val(data.customerDetails.oldCustomerZip);
+                            jQuery('#oldCustomerFormCustomerCity').val(data.customerDetails.oldCustomerCity);
+                            jQuery('#oldCustomerFormCustomerDistrict').val(data.customerDetails.oldCustomerDistrict);
+                            jQuery('#oldCustomerFormCustomerState').val(data.customerDetails.oldCustomerState);
+                            jQuery('#oldCustomerFormCustomerCountry').val("India");
+                            if ("" == jQuery("#orderNetPaid").text()){ jQuery("#dueAmount").text(data.customerDetails.oldCustomerDues); }
+                            else{ jQuery("#dueAmount").text(totalPayable - parseFloat(jQuery("#orderNetPaid").text()) + parseFloat(customerDues)); }
+                        }                        
+                        else{
+                            jQuery("#statusMessage").html('<div class="alert alert-' + data.status + '">' + data.statusMessage + '</div>');
+                            jQuery("#statusMessage").fadeOut(5000);
+                        }
+                    });
+                }    
+            }            
+            if("" !== jQuery("#oldCustomerFormOrderNumber")){
+                jQuery.ajax({
+                    type: "POST",
+                    url: "{{ url_for('customerDetailsFill') }}",
+                    dataType: 'json',
+                    data: { "orderNumber" : jQuery('#oldCustomerFormOrderNumber').val() }
+                })
+                .done(function(data){
+                    if(undefined !== data.customerDetails){
+                        jQuery('#oldCustomerFormCustomerDues').val(data.customerDetails.oldCustomerDues);
+                        jQuery('#oldCustomerFormCustomerDiscount').val(data.customerDetails.oldCustomerDiscount);
+                        jQuery('#oldCustomerFormCustomerName').val(data.customerDetails.oldCustomerName);
+                        jQuery('#oldCustomerFormustomerEmail').val(data.customerDetails.oldCustomerEmail);
+                        jQuery('#oldCustomerFormCustomerContact').val(data.customerDetails.oldCustomerContact);
+                        jQuery('#oldCustomerFormCustomerZip').val(data.customerDetails.oldCustomerZip);
+                        jQuery('#oldCustomerFormCustomerCity').val(data.customerDetails.oldCustomerCity);
+                        jQuery('#oldCustomerFormCustomerDistrict').val(data.customerDetails.oldCustomerDistrict);
+                        jQuery('#oldCustomerFormCustomerState').val(data.customerDetails.oldCustomerState);
+                        jQuery('#oldCustomerFormCustomerCountry').val("India");
+                    }                        
+                    else{
+                        jQuery("#statusMessage").html('<div class="alert alert-' + data.status + '">' + data.statusMessage + '</div>');
+                        jQuery("#statusMessage").fadeOut(5000);
+                    }
+                });
+            }                       
+        });
+                      
+        // This code will store product information into tabular form on clicking addProductInCart Button.
+        jQuery("#orderProductFormAddProductButton").click(function(e){
+            e.preventDefault();
+            // jQuery("#customerOrderForm").addClass("was-validated");
+            jQuery("#orderProductForm").validate({
+                onkeyup: false,
+                rules: {
+                    orderProductFormProductName: {required: true, minlength: 3 },
+                    orderProductFormProductQuantity: {required: true, digits: true, min: 1 }
+                },
+                messages: {
+                    orderProductFormProductName: {required: "Please fill product name.", minlength: "Minimum 3 characters required." },
+                    orderProductFormProductQuantity: {required: "Please fill product quantity.", digits: "Product quantity must be whole numeric value.", min: "Minimum 1 product quantity require." }
+                },
+                errorElement: 'span',
+                errorPlacement: function (error, element) {
+                    error.addClass('invalid-feedback');
+                    element.closest('.form-group').append(error);
+                },
+                highlight: function (element, errorClass, validClass) {
+                    $(element).addClass('is-invalid');
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    $(element).removeClass('is-invalid');
+                }
+            });
+            if(true ===  jQuery("#orderProductForm").valid()){
+                jQuery("#statusMessage").prop("style", 'display:"block;"');
+                jQuery("#statusMessage :first-child").remove();
+                jQuery("table #orderNetPaid").prop("contenteditable", true);
+                jQuery.ajax({
+                    url : " {{ url_for('orderAdd') }} ",
+                    type : "POST",
+                    dataType : "json",
+                    data : { "orderProductName" : jQuery("#orderProductFormProductName").val() }
+                })
+                .done(function(data){
+                    if(undefined !== data.productDetails){
+                        jQuery("#orderDetailsFormOrderNumber").prop("readonly", true);
+                        if("true" !== jQuery("#orderDetailsFormAddButton").attr("clicked")){
+                            jQuery("#orderBuyButton, #orderCancelButton").show();
+                        }
+                        
+                        jQuery('#orderDetailsTable tbody td:first-child').each(function() {
+                            if (jQuery(this).text() === jQuery("#orderProductFormProductName").val()){
+                                jQuery("#statusMessage").html('<div class="alert alert-danger">' + jQuery("#orderProductFormProductName").val() + ' already added to the cart.</div>');
+                                jQuery("#statusMessage").fadeOut(5000);
+                                jQuery("#orderProductFormProductName").val("");
+                                jQuery("#orderProductFormProductQuantity").val("");
+                                exit;
+                            }
+                        });
+
+                        totalProduct += parseFloat(jQuery("#orderProductFormProductQuantity").val());
+                        totalSellPrice += parseFloat(data.productDetails.productSellPrice) * parseInt(jQuery("#orderProductFormProductQuantity").val());
+                        totalDiscount += parseFloat(data.productDetails.productDiscount) * parseInt(jQuery("#orderProductFormProductQuantity").val());
+                        totalPayable = (totalSellPrice - totalDiscount);
+                        netPrice = parseFloat(data.productDetails.productSellPrice) * parseInt(jQuery("#orderProductFormProductQuantity").val()) - parseFloat(data.productDetails.productDiscount) * parseInt(jQuery("#orderProductFormProductQuantity").val());
+                        jQuery("#orderDues").before(
+                            '<tr id="product'+ ++prd +'">\
+                                <td>' + jQuery("#orderProductFormProductName").val() + '</td>\
+                                <td id="tdPurchasedQuantity" class="text-center">\
+                                    <input type="text" class="purchasedQuantity text-center" value="' + jQuery("#orderProductFormProductQuantity").val() +
+                                '"</td>\
+                                <td class="text-right">' + data.productDetails.productSellPrice  * parseInt(jQuery("#orderProductFormProductQuantity").val()) + '</td><td class="text-right">' + data.productDetails.productDiscount  * parseInt(jQuery("#orderProductFormProductQuantity").val()) + '</td>\
+                                <td class="text-right">' + netPrice + '</td>\
+                                <td><button type="button" class="btn btn-secondary fa fa-times"></button></td>\
+                            </tr>'
+                        );
+                        jQuery("#orderProductFormProductName").val("");
+                        jQuery("#orderProductFormProductQuantity").val("");
+                        jQuery("#orderDetailsTable tfoot").html(
+                            '<tr>\
+                                <th>Total</th>\
+                                <td class="text-right">' + totalProduct + '</td>\
+                                <td class="text-right">' + totalSellPrice + '</td>\
+                                <td class="text-right">' + totalDiscount + '</td>\
+                                <th class="text-right" id="totalPayable">' + totalPayable + '</th>\
+                                <th class="text-right"></th>\
+                            </tr>'
+                        );
+                        jQuery("#orderDetailsTable tbody .purchasedQuantity:even").addClass("dark");
+                    }
+                    else{
+                        jQuery("#statusMessage").html('<div class="alert alert-' + data.status + '">' + data.statusMessage + '</div>');
+                        jQuery("#statusMessage").fadeOut(5000);
+                    }
+                });
+            }
+        });
+        
+        // This code will remove the added order from the order details table.
+        jQuery("#orderDetailsTable").on("click", ".fa-times", function(){
+            var removedProductID = jQuery("#" + jQuery(this).closest("tr").attr("id"));
+            var removedProduct = removedProductID.find("td");
+            
+            totalProduct -= parseInt(jQuery(removedProduct[1]).find(".purchasedQuantity").val());
+            totalSellPrice -= parseInt(removedProduct[2].textContent);
+            totalDiscount -= parseInt(removedProduct[3].textContent);
+            totalPayable -= parseInt(removedProduct[4].textContent);
+
+            jQuery("#orderDetailsTable tfoot").html(
+                '<tr>\
+                    <th>Total</th>\
+                    <td class="text-right">' + totalProduct + '</td>\
+                    <td class="text-right">' + totalSellPrice + '</td>\
+                    <td class="text-right">' + totalDiscount + '</td>\
+                    <th class="text-right" id="totalPayable">' + totalPayable + '</th>\
+                    <th class="text-right"></th>\
+                </tr>'
+            );
+
+            jQuery("#orderNetPaid").text("");
+
+            if(jQuery("#orderDetailsTable tbody tr").not("#orderDues, #netPaid").length == 1){
+                jQuery("#orderCancelButton, #orderBuyButton").hide();
+            }
+            jQuery(removedProductID).remove();
+        });
+        
+        // This code will calculate product price, discount and net rupees on changing quantity.
+        jQuery("#orderDetailsTable tbody").on("keyup", ".purchasedQuantity", function(e){
+            e.preventDefault();
+            var updateProduct = jQuery("#" + jQuery(this).closest("tr").attr("id")).find("td");
+        
+            productQuantity = jQuery(updateProduct[1]).find(".purchasedQuantity").val();
+
+            if(("0" !== productQuantity) && ("" !== productQuantity)){
+                jQuery.ajax({
+                    url : " {{ url_for('orderAdd') }} ",
+                    type : "POST",
+                    dataType : "json",
+                    data : { "orderProductName" : jQuery(updateProduct[0]).text() }
+                })
+                .done(function(data){
+                    if(undefined !== data.productDetails){
+                        totalProduct = 0, totalSellPrice = 0, totalDiscount = 0, totalPayable = 0;
+                        productQuantity = parseInt(productQuantity);
+                        productSellPrice = parseFloat(data.productDetails.productSellPrice) * productQuantity;
+                        productDiscount = parseFloat(data.productDetails.productDiscount) * productQuantity;                        
+
+                        jQuery(updateProduct[2]).text(productSellPrice);
+                        jQuery(updateProduct[3]).text(productDiscount);
+                        jQuery(updateProduct[4]).text(productSellPrice * productQuantity);
+
+                        jQuery("#orderDetailsTable tbody tr").not("#orderDues, #netPaid").each(function(index, element){
+                            var element = jQuery(element).find('td');
+
+                            totalProduct += parseInt(jQuery(element[1]).find(".purchasedQuantity").val());
+                            totalSellPrice += parseFloat(jQuery(element[2]).text());
+                            totalDiscount += parseFloat(jQuery(element[3]).text());
+                            totalPayable += parseFloat(jQuery(element[4]).text());
+                        });
+                        
+                        jQuery("#orderDetailsTable tfoot").html(
+                            '<tr>\
+                                <th>Total</th>\
+                                <td class="text-right">' + totalProduct + '</td>\
+                                <td class="text-right">' + totalSellPrice + '</td>\
+                                <td class="text-right">' + totalDiscount + '</td>\
+                                <th class="text-right" id="totalPayable">' + totalPayable + '</th>\
+                                <th class="text-right"></th>\
+                            </tr>'
+                        );
+                        jQuery("#orderDetailsTable tbody .purchasedQuantity:even").addClass("dark");
+                    }
+                });                
+            }
+            else{
+                totalProduct = 0, totalSellPrice = 0, totalDiscount = 0, totalPayable = 0;
+                jQuery(updateProduct[2]).text(0);
+                jQuery(updateProduct[3]).text(0);
+                jQuery(updateProduct[4]).text(0);
+                jQuery("#orderDetailsTable tbody tr").not("#orderDues, #netPaid").each(function(index, element){
+                    var element = jQuery(element).find('td');
+                    
+                    totalProduct += (("0" !== jQuery(element[1]).find(".purchasedQuantity").val()) && ("" !== jQuery(element[1]).find(".purchasedQuantity").val())) ? parseInt(jQuery(element[1]).find(".purchasedQuantity").val()) : 0;
+                    totalSellPrice += parseFloat(jQuery(element[2]).text());
+                    totalDiscount += parseFloat(jQuery(element[3]).text());
+                    totalPayable += parseFloat(jQuery(element[4]).text());
+                });
+                jQuery("#orderDetailsTable tfoot").html(
+                    '<tr>\
+                        <th>Total</th>\
+                        <td class="text-right">' + totalProduct + '</td>\
+                        <td class="text-right">' + totalSellPrice + '</td>\
+                        <td class="text-right">' + totalDiscount + '</td>\
+                        <th class="text-right" id="totalPayable">' + totalPayable + '</th>\
+                        <th class="text-right"></th>\
+                    </tr>'
+                );
+                jQuery("#orderDetailsTable tbody .purchasedQuantity:even").addClass("dark");
+            }            
+        });
+
+        // This code will validate the Order Details Form.
+        jQuery("#orderDetailsFormAddButton").click(function(e){
+            e.preventDefault();
+            jQuery("table #orderNetPaid").prop("contenteditable", false);
+            jQuery("#orderDetailsForm").validate({
+                onkeyup: false,
+                rules: { orderDetailsFormOrderNumber: {required: true }},
+                messages: { orderDetailsFormOrderNumber : {required: "Please fill order number." }},
+                errorElement: 'span',
+                errorPlacement: function (error, element) {
+                    error.addClass('invalid-feedback');
+                    element.closest('.form-group').append(error);
+                },
+                highlight: function (element, errorClass, validClass) {
+                    $(element).addClass('is-invalid');
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    $(element).removeClass('is-invalid');
+                }
+            });
+            if(true === jQuery("#orderDetailsForm").valid()){
+                jQuery("#statusMessage").prop("style", 'display:"block;"');
+                jQuery("#statusMessage :first-child").remove();
+                jQuery('#oldCustomerFormCustomerName').val("");
+                jQuery('#oldCustomerFormCustomerEmail').val("");
+                jQuery('#oldCustomerFormCustomerContact').val("");
+                jQuery('#oldCustomerFormCustomerZip').val("");
+                jQuery('#oldCustomerFormCustomerCity').val("");
+                jQuery('#oldCustomerFormCustomerDistrict').val("");
+                jQuery('#oldCustomerFormCustomerState').val("");
+                jQuery('#oldCustomerFormCustomerCountry').val("");
+                jQuery('#oldCustomerFormCustomerDues').val("");
+                jQuery('#oldCustomerFormCustomerDiscount').val("");
+                jQuery("#orderDetailsTable tbody #orderDetailsFormOrderStatus").val("");
+                jQuery('#dueAmount').text("");
+                jQuery('#orderNetPaid').text("");
+                jQuery("#orderDetails table tbody tr:lt(-2)").remove();
+                
+                totalProduct = 0, totalSellPrice = 0, totalDiscount = 0, totalPayable = 0;
+                jQuery.ajax({
+                    url : " {{ url_for('dataOrderNumber') }} ",
+                    type: "POST",
+                    dataType: "json",
+                    data: {"orderNumber" : jQuery("#orderDetailsFormOrderNumber").val()}
+                })
+                .done(function(data){
+                    if(undefined !== data.orderDetails){
+                        jQuery("#orderDetailsFormAddButton").attr("clicked", true);
+                        jQuery("#orderProductForm :input").prop("readonly", true);
+                        jQuery('#oldCustomerFormCustomerName').val(data.orderDetails.orderDetailsCustomerName);
+                        jQuery('#oldCustomerFormCustomerEmail').val(data.orderDetails.orderDetailsCustomerEmail);
+                        jQuery('#oldCustomerFormCustomerContact').val(data.orderDetails.orderDetailsCustomerContact);
+                        jQuery('#oldCustomerFormCustomerZip').val(data.orderDetails.orderDetailsCustomerZip);
+                        jQuery('#oldCustomerFormCustomerCity').val(data.orderDetails.orderDetailsCustomerCity);
+                        jQuery('#oldCustomerFormCustomerDistrict').val(data.orderDetails.orderDetailsCustomerDistrict);
+                        jQuery('#oldCustomerFormCustomerState').val(data.orderDetails.orderDetailsCustomerState);
+                        jQuery('#oldCustomerFormCustomerCountry').val(data.orderDetails.orderDetailsCustomerCountry);
+                        jQuery('#oldCustomerFormCustomerDues').val(data.orderDetails.orderDetailsCustomerDues);
+                        jQuery('#oldCustomerFormCustomerDiscount').val(data.orderDetails.orderDetailsCustomerDiscount);
+                        jQuery('#dueAmount').text(data.orderDetails.orderDetailsCustomerDues);
+                        jQuery('#orderNetPaid').text(data.orderDetails.orderDetailsNetPaid);
+                        jQuery("#orderDetailsFormOrderStatus").text(data.orderDetails.orderDetailsOrderStatus);
+                        orderDate = data.orderDetails.orderDetailsOrderDate;                        
+                        jQuery("#orderPrintButton").show();
+                        jQuery("#orderBuyButton").hide();
+                        if("Pending" === data.orderDetails.orderDetailsOrderStatus){
+                            jQuery("#orderCancelButton").show();
+                        }
+                        
+                        for (count=0; count<data.orderDetails.productDetails.length; count++){
+                            jQuery("#orderDues").before(
+                                '<tr id="product'+ (count+1) +'">\
+                                    <td>' + data.orderDetails.productDetails[count].productName + '</td>\
+                                    <td id="tdPurchasedQuantity" class="text-center">\
+                                        <input type="text" class="purchasedQuantity text-right" id="purchasedQuantity' + (count+1) + '" name="purchasedQuantity' + (count+1) + '" value="' + data.orderDetails.productDetails[count].productQuantity + '">\
+                                    </td>\
+                                    <td class="text-right">' + data.orderDetails.productDetails[count].productSellPrice * parseInt(data.orderDetails.productDetails[count].productQuantity) + '</td>\
+                                    <td class="text-right">' + data.orderDetails.productDetails[count].productDiscount * parseInt(data.orderDetails.productDetails[count].productQuantity) + '</td>\
+                                    <td class="text-right">' + ((parseFloat(data.orderDetails.productDetails[count].productSellPrice) - parseFloat(data.orderDetails.productDetails[count].productDiscount)) * parseInt(data.orderDetails.productDetails[count].productQuantity)) + '</td>\
+                                    <td><button type="button" class="btn btn-secondary fa fa-times"></button></td>\
+                                </tr>'
+                            );
+                            totalProduct += parseInt(data.orderDetails.productDetails[count].productQuantity);
+                            totalSellPrice += parseFloat(data.orderDetails.productDetails[count].productSellPrice) * parseInt(data.orderDetails.productDetails[count].productQuantity);
+                            totalDiscount += parseFloat(data.orderDetails.productDetails[count].productDiscount) * parseInt(data.orderDetails.productDetails[count].productQuantity);
+                        }
+                        totalPayable += totalSellPrice - totalDiscount;
+                        jQuery("tfoot").html('<tr><th>Total</th><td class="text-right">' + totalProduct + '</td><td class="text-right">' + totalSellPrice + '</td><td class="text-right">' + totalDiscount + '</td><th class="text-right" id="totalPayable">' + totalPayable + '</th><th></th></tr>');
+                        jQuery("#orderDetailsTable tbody .purchasedQuantity:even").addClass("dark");
+                    }
+                    else{
+                        jQuery("#statusMessage").html('<div class="alert alert-' + data.status + '">' + data.statusMessage + '</div>');
+                        jQuery("#statusMessage").fadeOut(5000);
+                        jQuery("#orderProductForm :input").prop("readonly", false);
+                        jQuery("#orderPrintButton").hide();
+                        jQuery("#orderCancelButton").hide();
+                    }
+                });
+            }
+        });
+        
+        // This code will clear order details on clicking Cancel Button or Cancel the entire order.
+        jQuery("#orderCancelButton").click(function(e){
+            e.preventDefault();
+            if("true" !== jQuery("#orderDetailsFormAddButton").attr("clicked")){
+                jQuery("#orderDetailsFormOrderNumber").prop("readonly", false);
+                jQuery("table #orderNetPaid").prop("contenteditable", false);
+                jQuery("#orderCancelButton, #orderBuyButton").hide();
+                jQuery("#orderNetPaid").text("");
+                jQuery("#dueAmount").text(customerDues);
+                jQuery("#orderDetails table tbody tr:lt(-2)").remove();
+                totalProduct = 0, totalSellPrice = 0, totalDiscount = 0, totalPayable = 0;
+                jQuery("tfoot").html('<tr><th>Total</th><td>' + totalProduct + '</td><td>' + totalSellPrice + '</td><td>' + totalDiscount + '</td><th>' + totalPayable + '</th><th></th></tr>')
+            }
+            else{
+                e.preventDefault();
+                totalProduct = 0, totalSellPrice = 0, totalDiscount = 0, totalPayable = 0;
+                jQuery("#statusMessage").prop("style", 'display:"block;"');
+                jQuery("#statusMessage :first-child").remove();
+                if("" !== jQuery("#oldCustomerFormCustomerName").val()){
+                    if(true === jQuery("#orderDetails table tbody tr").length > 2){
+                        if("" !== jQuery("#orderNetPaid").text()){
+                            jQuery("table #orderNetPaid").prop("contenteditable", false);
+                            var productJSON = {}, product;
+                            productJSON["productName"] = {};
+                            
+                            jQuery("#orderDetailsTable tbody tr").not("#orderDues, #netPaid").each(function(index, element){
+                                if(0 !== parseInt(jQuery(element).find("td").find(".purchasedQuantity").val())){
+                                    product = "product" + ++index;
+                                    element = jQuery(element).find('td');
+
+                                    productJSON["productName"][product] = [jQuery(element[0]).text(), parseInt(jQuery(element[1]).find(".purchasedQuantity").val()), parseFloat(jQuery(element[2]).text()), parseFloat(jQuery(element[3]).text())];
+                                    totalProduct += parseInt(jQuery(element).find("td").find(".purchasedQuantity").val());
+                                    totalSellPrice += parseFloat(jQuery(element[2]).text());
+                                    totalDiscount += parseFloat(jQuery(element[3]).text());
+                                    totalPayable += parseFloat(jQuery(element[4]).text());
+                                }
+                            });
+
+                            productJSON["printPageOrderCustomerName"] = jQuery("#oldCustomerFormCustomerName").val();
+                            productJSON["printPageOrderCustomerContact"] = jQuery("#oldCustomerFormCustomerContact").val();
+                            productJSON["dueAmount"] = jQuery("#dueAmount").text(parseFloat(jQuery("#dueAmount").text() - (parseFloat(totalPayable) - parseFloat(jQuery("#orderNetPaid").text()))));
+                            productJSON["orderNetPaid"] = jQuery("#orderNetPaid").text();
+                            productJSON["orderTotal"] = totalSellPrice;
+                            productJSON["orderDiscount"] = totalDiscount;
+                            productJSON["orderNumber"] = jQuery("#orderDetailsFormOrderNumber").val();
+                            
+                            jQuery.ajax({
+                                url : " {{ url_for('orderCancel') }} ",
+                                type : "POST",
+                                dataType : "json",
+                                data : { "productJSON" : JSON.stringify(productJSON) }
+                            }).done(function(data){
+                                jQuery("#statusMessage").html('<div class="alert alert-success">Order successfully completed.</div>');
+                                jQuery("#statusMessage").fadeOut(5000);                        
+                                jQuery("#printPageOrderCustomerName").val(jQuery("#oldCustomerFormCustomerName").val());
+                                jQuery("#printPageOrderNumber").val(jQuery("#orderDetailsFormOrderNumber").val());
+                                jQuery("#printPageOrderCustomerContact").val(jQuery("#oldCustomerFormCustomerContact").val());
+                                jQuery("#printPageOrderCustomerZip").val(jQuery("#oldCustomerFormCustomerZip").val());
+                                jQuery("#printPageOrderCustomerCity").val(jQuery("#oldCustomerFormCustomerCity").val());
+                                jQuery("#printPageOrderCustomerState").val(jQuery("#oldCustomerFormCustomerState").val());
+                                jQuery("#orderPrintPageTable tbody").html(jQuery("#orderDetailsTable tbody tr").clone());
+                                jQuery("#orderPrintPageTable tbody tr td:last-child").remove();
+                                jQuery("#orderPrintPageTable tfoot").html('<tr><th>Total</th><td class="text-right">' + totalProduct + '</td><td class="text-right">' + totalSellPrice + '</td><td class="text-right">' + totalDiscount + '</td><th class="text-right">' + totalPayable + '</th></tr>');
+                                jQuery('#printPageOrderDate').val(currentDate);
+                                jQuery("#mainContent").hide();
+                                jQuery("#printPage").show();                                
+                            }).fail(function(data){
+                                console.log("Failed");
+                            });
+                        }
+                        else{
+                            jQuery("#statusMessage").html('<div class="alert alert-danger">Please fill net paid amount.</div>');
+                            jQuery("#statusMessage").fadeOut(5000);
+                        }
+                    }
+                    else{
+                        jQuery("#statusMessage").html('<div class="alert alert-danger">Please add some product in the cart.</div>');
+                        jQuery("#statusMessage").fadeOut(5000);
+                    }
+                }
+                else{
+                    jQuery("#statusMessage").html('<div class="alert alert-danger">Please fill customer details.</div>');
+                    jQuery("#statusMessage").fadeOut(5000);
+                } 
+            }
+        });        
+
+        // This code will display print page on clicking Proceed Button.
+        jQuery("#orderBuyButton").click(function(e){
+            e.preventDefault();
+            totalProduct = 0, totalSellPrice = 0, totalDiscount = 0, totalPayable = 0;
+            jQuery("#statusMessage").prop("style", 'display:"block;"');
+            jQuery("#statusMessage :first-child").remove();
+            if("" !== jQuery("#oldCustomerFormCustomerName").val()){
+                if(true === jQuery("#orderDetails table tbody tr").length > 2){
+                    if("" !== jQuery("#orderNetPaid").text()){
+                        jQuery("table #orderNetPaid").prop("contenteditable", false);
+                        var productJSON = {}, product;
+                        productJSON["productName"] = {};
+                        
+                        jQuery("#orderDetailsTable tbody tr").not("#orderDues, #netPaid").each(function(index, element){
+                            if(0 !== parseInt(jQuery(element).find("td").find(".purchasedQuantity").val())){
+                                product = "product" + ++index;
+                                element = jQuery(element).find('td');
+
+                                productJSON["productName"][product] = [jQuery(element[0]).text(), parseInt(jQuery(element[1]).find(".purchasedQuantity").val()), parseFloat(jQuery(element[2]).text()), parseFloat(jQuery(element[3]).text())];
+                                totalProduct += parseInt(jQuery(element[1]).find(".purchasedQuantity").val());
+                                totalSellPrice += parseFloat(jQuery(element[2]).text());
+                                totalDiscount += parseFloat(jQuery(element[3]).text());
+                                totalPayable += parseFloat(jQuery(element[4]).text());
+                            }
+                        });
+
+                        productJSON["printPageOrderCustomerName"] = jQuery("#oldCustomerFormCustomerName").val();
+                        productJSON["printPageOrderCustomerContact"] = jQuery("#oldCustomerFormCustomerContact").val();
+                        productJSON["dueAmount"] = jQuery("#dueAmount").text();
+                        productJSON["orderNetPaid"] = jQuery("#orderNetPaid").text();
+                        productJSON["orderTotal"] = totalSellPrice;
+                        productJSON["orderDiscount"] = totalDiscount;
+                        
+                        jQuery.ajax({
+                            url : " {{ url_for('orderBuy') }} ",
+                            type : "POST",
+                            dataType : "json",
+                            data : { "productJSON" : JSON.stringify(productJSON) }
+                        }).done(function(data){                            
+                            jQuery("#printPageOrderCustomerName").val(jQuery("#oldCustomerFormCustomerName").val());
+                            jQuery("#printPageOrderNumber").val(data.orderNumber);
+                            jQuery("#printPageOrderCustomerContact").val(jQuery("#oldCustomerFormCustomerContact").val());
+                            jQuery("#printPageOrderCustomerZip").val(jQuery("#oldCustomerFormCustomerZip").val());
+                            jQuery("#printPageOrderCustomerCity").val(jQuery("#oldCustomerFormCustomerCity").val());
+                            jQuery("#printPageOrderCustomerState").val(jQuery("#oldCustomerFormCustomerState").val());
+                            jQuery("#orderPrintPageTable tbody").html(jQuery("#orderDetailsTable tbody tr").clone());
+                            jQuery("#printPageOrderStatus").val(data.status);
+                            jQuery("#orderPrintPageTable tbody tr td:last-child").remove();
+                            jQuery("#orderPrintPageTable tfoot").html('<tr><th>Total</th><td class="text-right">' + totalProduct + '</td><td class="text-right">' + totalSellPrice + '</td><td class="text-right">' + totalDiscount + '</td><th class="text-right">' + totalPayable + '</th></tr>');
+                            jQuery('#printPageOrderDate').val(currentDate);
+                            jQuery("#mainContent").hide();
+                            jQuery("#printPage").show();
+                            // jQuery.ajax({
+                            //     url : " {{ url_for('sendDynamicPDF') }} ",
+                            //     type : "POST",
+                            //     dataType : "json",
+                            //     data : { "orderCustomerName" : jQuery("#printPageOrderCustomerName").val() }
+                            // }).done(function(data){
+                            //     jQuery("#statusMessage").html('<div class="alert alert-' + data.status + '">' + data.statusMessage + '</a></div>');
+                            //     jQuery("#statusMessage").fadeOut(5000);
+                            // }).fail(function(data){
+                            //     console.log("Email Failed");
+                            // });
+                            
+                        }).fail(function(data){
+                            console.log("Failed");
+                        });
+                    }
+                    else{
+                        jQuery("#statusMessage").html('<div class="alert alert-danger">Please fill net paid amount.</div>');
+                        jQuery("#statusMessage").fadeOut(5000);
+                    }
+                }
+                else{
+                    jQuery("#statusMessage").html('<div class="alert alert-danger">Please add some product in the cart.</div>');
+                    jQuery("#statusMessage").fadeOut(5000);
+                }
+            }
+            else{
+                jQuery("#statusMessage").html('<div class="alert alert-danger">Please fill customer details.</div>');
+                jQuery("#statusMessage").fadeOut(5000);
+            }           
+        });
+
+        // This code will display print page on clicking Proceed Button.
+        jQuery("#orderPrintButton").click(function(e){
+            e.preventDefault();
+            jQuery("#printPageOrderCustomerName").val(jQuery("#oldCustomerFormCustomerName").val());
+            jQuery("#printPageOrderNumber").val(jQuery("#orderDetailsFormOrderNumber").val());
+            jQuery("#printPageOrderCustomerContact").val(jQuery("#oldCustomerFormCustomerContact").val());
+            jQuery("#printPageOrderCustomerZip").val(jQuery("#oldCustomerFormCustomerZip").val());
+            jQuery("#printPageOrderCustomerCity").val(jQuery("#oldCustomerFormCustomerCity").val());
+            jQuery("#printPageOrderCustomerState").val(jQuery("#oldCustomerFormCustomerState").val());
+            jQuery('#printPage table tbody').html(jQuery("#orderDetails table tbody tr").clone());
+            jQuery('#printPageOrderStatus').val(jQuery("#orderDetailsFormOrderStatus").text());
+            jQuery('#printPageOrderDate').val(orderDate);
+            jQuery("tfoot").html('<tr><th>Total</th><td class="text-right">' + totalProduct + '</td><td class="text-right">' + totalSellPrice + '</td><td class="text-right">' + totalDiscount + '</td><th class="text-right">' + totalPayable + '</th></tr>');
+            jQuery("#printPage tbody tr td:last-child").hide();
+            jQuery("#mainContent").hide();
+            jQuery("#printPage").show();
+        });
+
+        // This code will prevent enter key in Net Paid Table Cell.
+        jQuery("#orderNetPaid").keypress(function(e){
+            if(e.which === 13){ e.preventDefault(); return false; }            
+        });
+
+        // It will set dues according to Net Paid on keyup event.
+        jQuery("#orderNetPaid").keyup(function(e){
+            if("" === jQuery("#orderNetPaid").text()){ jQuery("#dueAmount").text(customerDues); }
+            else{
+                if(("" !== jQuery("#orderNetPaid").text()) && ("" === jQuery("#dueAmount").text())){
+                    jQuery("#dueAmount").text("");
+                }
+                else{
+                    jQuery("#dueAmount").text(totalPayable - parseFloat(jQuery("#orderNetPaid").text()) + parseFloat(customerDues));
+                }
+            }
+        });
+        
+        // This code will print the order.
+        jQuery("#printPagePrintButton").click(function(){
+            window.print();
+        });
+
+        // This code will display home page again to create new order.
+        jQuery("#printPageNewOrderButton").click(function(){
+            productJSON = {};
+            productJSON["productName"] = {};
+            prd=0;
+            jQuery("#mainContent").show();
+            jQuery("#printPage").hide();
+            jQuery("#orderCancelButton").hide();
+            jQuery("#oldCustomerForm").trigger("reset");
+            jQuery("#orderProductForm").trigger("reset");
+            jQuery('#dueAmount').text("");
+            jQuery('#orderNetPaid').text("");
+            jQuery("#orderDetails table tbody tr:lt(-2)").remove();
+            jQuery("#orderPrintButton").remove();
+            jQuery("#orderDetailsFormOrderNumber").val("");
+            jQuery("#orderDetailsFormOrderStatus").text("Order Status");
+            totalProduct = 0, totalSellPrice = 0, totalDiscount = 0, totalPayable = 0;
+            jQuery("tfoot").html('<tr><th>Total</th><td class="text-right">' + totalProduct + '</td><td class="text-right">' + totalSellPrice + '</td><td class="text-right">' + totalDiscount + '</td><th class="text-right" id="totalPayable">' + totalPayable + '</th><th></th></tr>');
+            jQuery("#orderDetailsFormAddButton").attr("clicked", false);
+            jQuery("#orderProductForm :input").prop("readonly", false);
+            jQuery("#orderDetailsFormOrderNumber").prop("readonly", false);
+        });           
+    });
+</script>
+{% endblock scripts %}

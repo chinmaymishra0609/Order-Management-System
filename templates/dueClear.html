@@ -1,0 +1,381 @@
+{% extends "layout.html" %}
+{% block title %} Due Clear {% endblock %}
+{% block content %}
+{{ super() }}
+{% block page_content %}
+    <div class="container" id="mainOrderInformationPage">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h2 class="text-center text-secondary p-2" style="border: 1px dotted #ddd">Invoice Management System</h2>
+                    </div>
+                </div>
+                <div class="row"><div class="col-sm-12" id="alertMessage"></div></div>
+                <form id="orderInformationForm" name="orderInformationForm" method="POST" class="form-vertical" action="">
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <div class="form-group">
+                                <input type="text" list="orderInformationFormDatalistCustomerName" class="form-control" id="orderInformationFormCustomerName" name="orderInformationFormCustomerName" placeholder="Customer Name">
+                                <datalist id="orderInformationFormDatalistCustomerName"></datalist>
+                            </div>
+                        </div>
+                        <div class="col-sm-1">
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-secondary float-right d-print-none" id="orderInformationFormCustomerNameButton" name="orderInformationFormCustomerNameButton" style="width:72px;">Submit</button>
+                            </div>
+                        </div><div class="col-sm-5">
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="orderInformationFormOrderNumber" name="orderInformationFormOrderNumber" placeholder="Order Number">
+                            </div>
+                        </div>
+                        <div class="col-sm-1">
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-secondary float-right d-print-none" id="orderInformationFormOrderNumberButton" name="orderInformationFormOrderNumberButton" style="width:72px;">Submit</button>
+                            </div>
+                        </div>
+                    </div>                                        
+                </form>
+            </div>
+        </div>
+        <table class="table table-striped table-bordered" id="dueOrderDetailsTable">
+            <thead>
+                <tr>               
+                    <th width="8%">Order No.</th>
+                    <th width="26%">Product Details</th>
+                    <th width="7%">Total</th>
+                    <th width="7%">Paid</th>
+                    <th width="7%">Due</th>
+                    <th width="8%">Status</th>
+                    <th width="11%">Mode</th>
+                    <th width="11%">Payer</th>
+                    <th width="7%">Update</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+            <tfoot></tfoot>
+        </table>
+    </div>
+    <div class="container" id="cashReceiptPage" style="display:none;">
+        <div class="row">
+            <div class="offset-sm-2 col-sm-8">
+                <h2 class="text-center text-secondary p-2" style="border: 1px dotted #ddd">Invoice Management System</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="offset-sm-2 col-sm-8" style="border: 1px dotted #ddd">
+                <div class="row">
+                    <div class="col-sm-6 d-flex align-items-center">
+                        <h2 class="text-secondary">Cash Receipt</h2>                        
+                    </div>                                        
+                    <div class="col-sm-6">
+                        <div class="row">
+                            <div class="offset-sm-6 col-sm-6 mt-2">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="cashReceiptID" name="cashReceiptID" placeholder="Receipt Number">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="offset-sm-6 col-sm-6">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="duePaidDate" name="duePaidDate" placeholder="Receipt Date">
+                                </div>
+                            </div>
+                        </div>                        
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col" style="font-size: 18px;">
+                        <p>Received from <span id="dueReceivedFrom"></span> the amount of rupees <span id="duePaidAmount"></span> against order number <span id="dueOrderNumber"></span>.</p>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <table class="table table-bordered">                     
+                                    <tr><td width="30%">Balance:</td><td class="text-right" width="30%" id="dueOrderBalance"></td></tr>
+                                    <tr><td width="30%">Due Paid:</td><td class="text-right" width="30%" id="duePaidAmount"></td></tr>
+                                    <tr><td width="30%">Dues:</td><td class="text-right" width="30%" id="customerDues"></td></tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="row">                    
+                            <div class="offset-sm-6 col-sm-6">
+                                <table class="table table-bordered" id="duePaidModeTable">
+                                    <tr><td width="30%"></td><td>Cash</td></tr>
+                                    <tr><td width="30%"></td><td>Cheque</td></tr>
+                                    <tr><td width="30%"></td><td>Online</td></tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>                    
+                </div>
+                <br/>
+                <div class="row">
+                    <div class="offset-sm-7 col-sm-5">
+                        <table class="table table-bordered">
+                            <tr><td width="45%">Received By:</td><td id="dueReceivedBy"></td></tr>
+                            <tr><td width="45%">Digital Sign:</td><td> <img src="" alt="" id="dueDigitalSign"> </td></tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">                                        
+                        <div class="form-group">
+                            <button type="button" class="btn btn-secondary float-right d-print-none mb-2 btnSize" id="cashReceiptPrintButton" name="cashReceiptPrintButton">Print</button>
+                            <button type="button" class="btn btn-secondary float-right d-print-none mb-2 mr-1 btnSize" id="cashReceiptBackButton" name="cashReceiptBackButton">Back</button>
+                        </div>
+                    </div>
+                </div>                            
+            </div>            
+        </div>        
+    </div>
+    {% endblock %}
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        var status = "", customerName="", customerContact="", totalProduct = 0, totalSellPrice = 0, totalDiscount = 0, totalPayable = 0, prd=0, dueDate="", printData="";
+        
+        function cashReceiptPrint(data){
+            jQuery("#alertMessage").prop("style", 'display:"block;"');
+            jQuery("#alertMessage :first-child").remove();            
+
+            jQuery.ajax({
+                type: "POST",
+                url: "{{ url_for('orderInformation') }}",
+                dataType: 'json',
+                data: data 
+            })
+            .done(function(data){
+                jQuery("#dueOrderDetailsTable tbody").empty();
+                if(undefined !== data.orderDetails){
+                    for (i=0; i<data.orderDetails.length; i++){
+                        orderProductDetails = [];
+                        for(j=1; j<=Object.keys(data.orderDetails[i].productDetails).length; j++){
+                            let product = "product" + j;
+                            orderProductDetails.push(" " + data.orderDetails[i].productDetails[product] );                                
+                        }                        
+                        jQuery("#dueOrderDetailsTable tbody").append(
+                            '<tr id="'+ data.orderDetails[i].orderID +'">\
+                                <td width="8%">'+ data.orderDetails[i].orderID +'</td>\
+                                <td width="26%">'+ orderProductDetails +'</td>\
+                                <td width="7%">'+ data.orderDetails[i].orderTotal +'</td>\
+                                <td width="7%">'+ data.orderDetails[i].orderNetPaid +'</td>\
+                                <td width="7%">'+ (parseFloat(data.orderDetails[i].orderTotal) - parseFloat(data.orderDetails[i].orderNetPaid) - parseFloat(data.orderDetails[i].orderDiscount)) +'</td>\
+                                <td width="8%">' + data.orderDetails[i].orderStatus + '</td>\
+                                <td width="11%">\
+                                    <select class="form-control payMode">\
+                                        <option value="">Select</option>\
+                                        <option value="Cash">Cash</option>\
+                                        <option value="Cheque">Cheque</option>\
+                                        <option value="Online">Online</option>\
+                                    </select>\
+                                </td>\
+                                <td width="11%" contenteditable="true" class="payerName"></td>\
+                                <td width="7%" class="text-center">' + '<button type="submit" class="btn btn-secondary pendingOrder" style="width: 62px;">Update</button>' + '</td>\
+                            </tr>'
+                        );
+                    }
+                }
+                else{
+                    jQuery.ajax({
+                        type: "POST",
+                        url: "{{ url_for('duePaid') }}",
+                        dataType: 'json',
+                        data: { "cashReceiptOrderNumber" : jQuery("#orderInformationFormOrderNumber").val() }
+                    })
+                    .done(function(data){
+                        if(undefined !== data.cashReceiptDetails){                             
+                            jQuery("#mainOrderInformationPage").hide();
+                            jQuery("#cashReceiptPage").show();
+                            jQuery("#cashReceiptID").val(data.cashReceiptDetails.cashReceiptID);
+                            jQuery("#duePaidDate").val(data.cashReceiptDetails.duePaidDate);
+                            jQuery("p #duePaidAmount").text(data.cashReceiptDetails.duePaidAmount);
+                            jQuery("table #duePaidAmount").text(data.cashReceiptDetails.duePaidAmount);
+                            jQuery("#customerDues").text(data.cashReceiptDetails.customerDues);
+                            jQuery("#dueReceivedFrom").text(data.cashReceiptDetails.dueReceivedFrom);
+                            jQuery("#dueReceivedBy").text(data.cashReceiptDetails.dueReceivedBy);
+                            jQuery("#dueOrderNumber").text(jQuery("#orderInformationFormOrderNumber").val());
+                            jQuery("#dueDigitalSign").attr("src", "static/uploads/" + data.cashReceiptDetails.receptionistDigitalSign);
+                            jQuery("#dueOrderBalance").text(0);
+                            if("cash" === data.cashReceiptDetails.duePaidMode){
+                                jQuery("#duePaidModeTable").html(
+                                    '<tr><td width="30%"><i class="fa fa-check"></i></td><td>Cash</td></tr>\
+                                    <tr><td width="30%"></td><td>Cheque</td></tr>\
+                                    <tr><td width="30%"></td><td>Online</td></tr>'
+                                );
+                            }
+
+                            else if("cheque" === data.cashReceiptDetails.duePaidMode){
+                                jQuery("#duePaidModeTable").html(
+                                    '<tr><td width="30%"></td><td>Cash</td></tr>\
+                                    <tr><td width="30%"><i class="fa fa-check"></i></td><td>Cheque</td></tr>\
+                                    <tr><td width="30%"></td><td>Online</td></tr>'
+                                );
+                            }
+
+                            else if("online" === data.cashReceiptDetails.duePaidMode){
+                                jQuery("#duePaidModeTable").html(
+                                    '<tr><td width="30%"></td><td>Cash</td></tr>\
+                                    <tr><td width="30%"></td><td>Cheque</td></tr>\
+                                    <tr><td width="30%"><i class="fa fa-check"></i></td><td>Online</td></tr>'
+                                );
+                            }                    
+                        }
+                        else{
+                            jQuery("#alertMessage").html('<div class="alert alert-danger">Order number is not available.</div>');
+                            jQuery("#alertMessage").fadeOut(5000);
+                        }
+                    });
+                }
+            });
+        }
+
+        // It will add customer name dynamically in datalist menu on keyup event.
+        jQuery("#orderInformationFormCustomerName").keyup(function(e){
+            e.preventDefault();
+            if (jQuery("#orderInformationFormCustomerName").val().length > 2){
+                jQuery.ajax({
+                    type: "POST",
+                    url: "{{ url_for('dynamicCustomerName') }}",
+                    dataType: 'json',
+                    data: { "orderDetailsCustomerName" : jQuery('#orderInformationFormCustomerName').val() }
+                })
+                .done(function(data){
+                    if("" !== jQuery("#orderInformationFormCustomerName").val()){
+                        jQuery('#orderInformationFormDatalistCustomerName').empty();
+                        for (i=0; i<data.allCustomerName.length; i++){
+                            jQuery('#orderInformationFormDatalistCustomerName').append('<option value="' + data.allCustomerName[i][0] + '   ' + data.allCustomerName[i][1] + '">');
+                        }
+                    }
+                });
+            }
+        });
+    
+        // It will separate customer name with contact number.
+        jQuery("#orderInformationFormCustomerName").change(function(e){
+            e.preventDefault();
+            customerName = jQuery("#orderInformationFormCustomerName").val().split("  ")[0].trim();
+            customerContact = jQuery("#orderInformationFormCustomerName").val().split("  ")[1].trim();
+            jQuery("#orderInformationFormCustomerName").val(customerName);
+        });
+        
+        // This code will check whether customer exist or not?
+        jQuery("#orderInformationFormCustomerName").blur(function(e){
+            e.preventDefault();
+            if(jQuery("#orderInformationFormCustomerName").val().length > 2){                
+                jQuery("#dueOrderDetailsTable tbody").empty();
+                jQuery("#alertMessage").prop("style", 'display:"block;"');
+                jQuery("#alertMessage :first-child").remove();
+                jQuery.ajax({
+                    type: "POST",
+                    url: "{{ url_for('customerDetailsFill') }}",
+                    dataType: 'json',
+                    data: { "orderCustomerName" : customerName, "orderCustomerContact" : customerContact }
+                })
+                .done(function(data){
+                    if(undefined === data.customerDetails){
+                        jQuery("#alertMessage").html('<div class="alert alert-danger">' + jQuery("#orderInformationFormCustomerName").val() + ' is not available.</div>');
+                        jQuery("#alertMessage").fadeOut(5000);
+                    }
+                });            
+            }            
+        });
+
+        // It will pending order details according to customer name and contact.
+        jQuery("#orderInformationFormCustomerNameButton, #orderInformationFormOrderNumberButton").click(function(e){
+            e.preventDefault();
+            let data = "";
+            if("orderInformationFormCustomerNameButton" === jQuery(this).attr("id")){
+                data = { "orderInformationCustomerName" : ("" !== jQuery('#orderInformationFormCustomerName').val()) ?  customerName : "",
+                         "orderInformationCustomerContact" : ("" !== jQuery('#orderInformationFormCustomerName').val()) ?  customerContact : "",
+                         "orderInformationOrderNumber" : ""
+                       } 
+            }
+            else{ data = { "orderInformationCustomerName" : "",
+                           "orderInformationCustomerContact" : "",
+                           "orderInformationOrderNumber" : ("" !== jQuery("#orderInformationFormOrderNumber").val()) ? jQuery('#orderInformationFormOrderNumber').val() : "" }
+                         }
+            cashReceiptPrint(data);
+        });
+
+        // It will update the Pending Order and will set Update Button to Print Button.
+        jQuery("#dueOrderDetailsTable").delegate(".pendingOrder", "click", function(e){
+            e.preventDefault();
+            jQuery("#alertMessage").prop("style", 'display:"block;"');
+            jQuery("#alertMessage :first-child").remove();
+            var dueOrder = jQuery("#" + (jQuery(this).parents("tr").attr("id"))).find("td");
+            if("" !== jQuery(".payMode :selected").val()){
+                if("" !== dueOrder[7].textContent){
+                    jQuery.ajax({
+                        type: "POST",
+                        url: "{{ url_for('duePaid') }}",
+                        dataType: 'json',
+                        data: {
+                            "dueOrderNumber" : dueOrder[0].textContent,
+                            "duePaidAmount" : dueOrder[4].textContent,
+                            "duePaidMode" : jQuery(".payMode :selected").val(),
+                            "dueReceivedFrom" : jQuery(".payerName").text()
+                        }
+                    })
+                    .done(function(data){
+                        if(undefined !== data.orderDetails){
+                            jQuery(dueOrder[2]).text(data.orderDetails.orderTotal) ;
+                            jQuery(dueOrder[3]).text((parseFloat(data.orderDetails.orderTotal) -  parseFloat(data.orderDetails.orderNetPaid))) ;
+                            jQuery(dueOrder[5]).text(data.orderDetails.orderStatus) ;
+                            jQuery("#alertMessage").html('<div class="alert alert-' + data.status + '">' + data.statusMessage + '</div>');
+                            jQuery("#alertMessage").fadeOut(5000);
+                            jQuery(dueOrder[8]).html('<button type="submit" class="btn btn-secondary printOrder" style="width: 62px;">Print</button>');
+                            jQuery(".payMode").prop("disabled", true);
+                            jQuery(".payerName").prop("contenteditable", false);
+                        }
+                    });
+                }
+                else{
+                    jQuery("#alertMessage").html('<div class="alert alert-danger">Please fill payer name.</div>');
+                    jQuery("#alertMessage").fadeOut(5000);	
+                }
+            }
+            else{
+                jQuery("#alertMessage").html('<div class="alert alert-danger">Please select payment mode.</div>');
+                jQuery("#alertMessage").fadeOut(5000);	
+            }
+        });
+    
+        // It will Open the Pending Order Print Page.
+        jQuery("#dueOrderDetailsTable").delegate(".printOrder", "click", function(e){
+            e.preventDefault();
+            let printOrder = jQuery("#" + (jQuery(this).parents("tr").attr("id"))).find("td"), data = "";
+            data = { "orderInformationCustomerName" : "",
+                     "orderInformationCustomerContact" : "",
+                     "orderInformationOrderNumber" : jQuery(printOrder[0]).text() 
+                   };
+            cashReceiptPrint(data);
+        });
+    
+        // It will display dueClearForm and hide cash receipt.
+        jQuery("#cashReceiptBackButton").click(function(e){
+            e.preventDefault();
+            jQuery("#mainOrderInformationPage").show();
+            jQuery("#cashReceiptPage").hide();
+            jQuery("#orderInformationFormCustomerName").val("");
+            jQuery("#orderInformationFormOrderNumber").val("");
+        });
+
+        // It will Print the Order.
+        jQuery("#pendingOrderPrintButton, #cashReceiptPrintButton").click(function(e){
+            e.preventDefault();
+            window.print();
+        });
+    });
+</script>
+{% endblock scripts %}

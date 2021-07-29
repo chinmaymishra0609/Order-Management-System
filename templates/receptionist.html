@@ -1,0 +1,258 @@
+{% extends "layout.html" %}
+{% block title %} Operator {% endblock %}
+{% block head %} 
+    {% block styles %}
+    {{ super() }}        
+    {% endblock %}    
+{% endblock %}
+
+{% block content %}
+    {{ super() }}        
+    {% block page_content %}
+        <div class="container">
+            <div class="row"><div class="col-sm-12" id="alertMessage"></div></div>
+            <div class="row">
+                <div class="col-sm-3 center">
+                    <div class="card mb-3 collapse show" id="receptionistLoginCard">
+                        <div class="card-header bg-secondary">
+                            <h4 class="card-title text-center text-white">Receptionist Login</h4>
+                        </div>
+                        <div class="card-body">                                
+                            <form id="receptionistLoginForm" name="receptionistLoginForm" method="POST" class="form-vertical" action="">
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="receptionistLoginFormReceptionistEmail" id="receptionistLoginFormReceptionistEmail" placeholder="Email">
+                                        </div>
+                                    </div>                    
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <input type="password" class="form-control" name="receptionistLoginFormReceptionistPassword" id="receptionistLoginFormReceptionistPassword" placeholder="Password">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-secondary float-right d-print-none" id="receptionistLoginFormLoginButton" name="receptionistLoginFormLoginButton"style="width:72px;">Log In</button>
+                                            <a href="" class="text-secondary d-print-none" id="receptionistLoginFormForgotPassword" name="receptionistLoginFormForgotPassword" data-toggle="collapse" data-target="#receptionistLoginCard, #receptionistForgotPasswordCard" style="width:72px;">Forgot Password?</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="card mb-3 collapse" id="receptionistForgotPasswordCard">
+                        <div class="card-header bg-secondary">
+                            <h4 class="card-title text-center text-white">Forgot Password</h4>
+                        </div>
+                        <div class="card-body">                                
+                            <form id="receptionistForgotPasswordForm" name="receptionistForgotPasswordForm" method="POST" class="form-vertical" action="">
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="receptionistForgotPasswordFormReceptionistEmail" id="receptionistForgotPasswordFormReceptionistEmail" placeholder="Email">
+                                        </div>
+                                    </div>                    
+                                </div>                                
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-secondary float-right d-print-none" id="receptionistForgotPasswordFormForgotButton" name="receptionistForgotPasswordFormForgotButton" data-toggle="collapse" data-target="" style="width:72px;">Forgot</button>
+                                            <button type="submit" class="btn btn-secondary float-right d-print-none mr-1" id="receptionistForgotPasswordFormLoginButton" name="receptionistForgotPasswordFormLoginButton" data-toggle="collapse" data-target="#receptionistLoginCard, #receptionistForgotPasswordCard" style="width:72px;">Log In</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="card mb-3 collapse" id="receptionistChangePasswordCard">
+                        <div class="card-header bg-secondary">
+                            <h4 class="card-title text-center text-white">Forgot Password</h4>
+                        </div>
+                        <div class="card-body">                                
+                            <form id="receptionistChangePasswordForm" name="receptionistChangePasswordForm" method="POST" class="form-vertical" action="">
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <input type="password" class="form-control" name="receptionistChangePasswordFormReceptionistPassword" id="receptionistChangePasswordFormReceptionistPassword" placeholder="Password">
+                                        </div>
+                                    </div>                    
+                                </div>                                
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <input type="password" class="form-control" name="receptionistChangePasswordFormReceptionistConfirmPassword" id="receptionistChangePasswordFormReceptionistConfirmPassword" placeholder="Confirm Password">
+                                        </div>
+                                    </div>                    
+                                </div>                                
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <button type="button" class="btn btn-secondary float-right d-print-none" id="receptionistChangePasswordFormChangeButton" name="receptionistChangePasswordFormChangeButton" style="width:72px;">Change</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endblock %}
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        // This code will validate the receptionistLoginForm.
+        jQuery("#receptionistLoginFormLoginButton").click(function(e){
+            e.preventDefault();
+            jQuery("#receptionistLoginForm").validate({
+                onkeyup: false,
+                rules:{
+                    receptionistLoginFormReceptionistEmail      : { required : true, email : true},                    
+                    receptionistLoginFormReceptionistPassword   : { required : true },
+                },
+                messages:{
+                    receptionistLoginFormReceptionistEmail      : { required : "Please fill receptionist email.", email: "Email should be valid."},
+                    receptionistLoginFormReceptionistPassword   : { required : "Please fill receptionist password." },
+                },
+                errorElement: 'span',
+                errorPlacement: function (error, element) {
+                    error.addClass('invalid-feedback');
+                    element.closest('.form-group').append(error);
+                },
+                highlight: function (element, errorClass, validClass) {
+                    jQuery(element).addClass('is-invalid');
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    jQuery(element).removeClass('is-invalid');
+                }
+            });
+    
+            // This code will make an ajax request to store a new product into products table.
+            if (true === jQuery("#receptionistLoginForm").valid()){
+                jQuery("#alertMessage").prop("style", 'display:"block;"');
+                jQuery("#alertMessage :first-child").remove();
+                jQuery.ajax({
+                    type: "POST",
+                    url: "{{ url_for('receptionistLogin') }}",
+                    dataType: 'json',
+                    data: {
+                        "receptionistEmail" : jQuery('#receptionistLoginFormReceptionistEmail').val(),
+                        "receptionistPassword" : jQuery('#receptionistLoginFormReceptionistPassword').val()
+                    }
+                })
+                .done(function(data){                    
+                    if("success" === data.status){
+                        jQuery('#receptionistLoginFormReceptionistEmail').val("");
+                        jQuery('#receptionistLoginFormReceptionistPassword').val("");
+                        window.location.href = "/index";
+                    }
+                    else{
+                        jQuery("#alertMessage").html('<div class="alert alert-' + data.status + '">' + data.statusMessage + '</div>');
+                        jQuery("#alertMessage").fadeOut(5000);    
+                    }
+                    
+                });;
+            }
+        });
+        
+        // This code will validate the receptionistChangePasswordForm.
+        jQuery("#receptionistForgotPasswordFormForgotButton").click(function(e){
+            e.preventDefault();
+            jQuery("#receptionistForgotPasswordForm").validate({
+                onkeyup: false,
+                rules:{
+                    receptionistForgotPasswordFormReceptionistEmail : { required : true, email : true}
+                },
+                messages:{
+                    receptionistForgotPasswordFormReceptionistEmail : { required : "Please fill receptionist email.", email: "Email should be valid."}
+                },
+                errorElement: 'span',
+                errorPlacement: function (error, element) {
+                    error.addClass('invalid-feedback');
+                    element.closest('.form-group').append(error);
+                },
+                highlight: function (element, errorClass, validClass) {
+                    jQuery(element).addClass('is-invalid');
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    jQuery(element).removeClass('is-invalid');
+                }
+            });
+    
+            // This code will make an ajax request to store a new product into products table.
+            if (true === jQuery("#receptionistForgotPasswordForm").valid()){
+                jQuery("#alertMessage").prop("style", 'display:"block;"');
+                jQuery("#alertMessage :first-child").remove();
+                alert("Validated");
+                // jQuery.ajax({
+                //     type: "POST",
+                //     url: "{{ url_for('receptionistDetails') }}",
+                //     dataType: 'json',
+                //     data: {
+                //         "receptionistName" : jQuery('#receptionistRegistrationFormReceptionistName').val(),
+                //     }
+                // })
+                // .done(function (data) {                    
+                //     jQuery('#receptionistRegistrationFormReceptionistName').val(""),
+                //     jQuery("#alertMessage").html('<div class="alert alert-' + data.status + '">' + data.statusMessage + '</div>');
+                //     jQuery("#alertMessage").fadeOut(5000);
+                // });
+            }
+        });
+        
+        // This code will validate the receptionistChangePasswordForm.
+        jQuery("#receptionistChangePasswordFormChangeButton").click(function(e){
+            e.preventDefault();
+            jQuery("#receptionistChangePasswordForm").validate({
+                onkeyup: false,
+                rules:{
+                    receptionistChangePasswordFormReceptionistPassword : { required : true },
+                    receptionistChangePasswordFormReceptionistConfirmPassword : { required : true, equalTo : "#receptionistChangePasswordFormReceptionistPassword" }
+                },
+                messages:{
+                    receptionistChangePasswordFormReceptionistPassword : { required : "Please fill receptionist password." },
+                    receptionistChangePasswordFormReceptionistConfirmPassword : { required : "Please fill receptionist confirm password.", equalTo : "Confirm password did not macth with password." },
+                },
+                errorElement: 'span',
+                errorPlacement: function (error, element) {
+                    error.addClass('invalid-feedback');
+                    element.closest('.form-group').append(error);
+                },
+                highlight: function (element, errorClass, validClass) {
+                    jQuery(element).addClass('is-invalid');
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    jQuery(element).removeClass('is-invalid');
+                }
+            });
+    
+            // This code will make an ajax request to store a new product into products table.
+            if (true === jQuery("#receptionistChangePasswordForm").valid()){
+                jQuery("#alertMessage").prop("style", 'display:"block;"');
+                jQuery("#alertMessage :first-child").remove();
+                alert("Validated");
+                // jQuery.ajax({
+                //     type: "POST",
+                //     url: "{{ url_for('receptionistDetails') }}",
+                //     dataType: 'json',
+                //     data: {
+                //         "receptionistName" : jQuery('#receptionistRegistrationFormReceptionistName').val(),
+                //     }
+                // })
+                // .done(function (data) {                    
+                //     jQuery('#receptionistRegistrationFormReceptionistName').val(""),
+                //     jQuery("#alertMessage").html('<div class="alert alert-' + data.status + '">' + data.statusMessage + '</div>');
+                //     jQuery("#alertMessage").fadeOut(5000);
+                // });
+            }
+        });
+    });
+</script>
+{% endblock scripts %}

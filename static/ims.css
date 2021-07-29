@@ -1,0 +1,60 @@
+.card-title{
+    margin: -10px -10px;
+}
+
+.btn, input[type="text"], input[type="password"], button{
+    border-radius: 0rem;
+    padding: 0.2rem 0.25rem 0.25rem;
+}
+
+input[type="text"], input[type="password"]{
+    height: calc(1em + 0.750rem + 2px);
+}
+
+.table th, .table td{
+    padding: 0.5rem;
+}
+
+/* #orderPageOrderCustomerName{ width: 70%; } */
+
+#orderInformationFormOrderStatus, #newCustomerFormCustomerCity, #updateCustomerFormCustomerCity, #receptionistDetailsFormReceptionistRole, #receptionistDetailsFormReceptionistStatus, #orderDetailsFormOrderStatus, .payMode {
+    padding: 1px;
+    height: calc(1.2em + 0.75rem + 1px);
+    border-radius: 0;
+}
+
+#duePaidAmount, #duePaidMode, #dueReceivedFrom, #dueReceivedBy, #dueOrderNumber, #customerDues, #dueOrderBalance {
+    font-weight: bold;
+}
+
+#dueDigitalSign{
+    width: 140px;
+    height: 50px;
+}
+#sidebar {
+    width: 115px;
+    height: 667px;
+    background-color:#e82657;
+    position:absolute;
+    opacity: 0;
+    transition-duration: 1s;
+}
+
+#sidebar:hover {
+    opacity: 1;
+    transition-duration: 1s;
+}
+
+#duePaidDate {margin-top: -10px;}
+
+#tdPurchasedQuantity {
+    padding-left: 2px;
+    padding-right: 2px;
+    padding-top: 5px;
+}
+.purchasedQuantity { width:100%; border: none; }
+
+.dark { background-color : #f3f1f1; }
+.btnSize { width: 72px; }
+
+#orderPrintButton, #orderBuyButton, #orderCancelButton { display: none; }

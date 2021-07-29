@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+{% block title %} Order {% endblock %}
+{% block head %} 
+    {% block styles %}
+    {{ super() }}
+        <style>
+            .selected{
+                border: 1px solid blue;
+            }
+        </style>
+    {% endblock %}    
+{% endblock %}
+
+{% block content %}
+{% block page_content %}
+    <div class="container" id="printPage">
+        <h1>Your name is {{name}} and location is  {{location}} </h1>
+    </div>
+    {% endblock %}
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+       // highlight: function(element, errorClass, validClass) {
+        //     jQuery(element).parents(".form-group").addClass("valid").removeClass("invalid");
+        //     jQuery(element).next("label").addClass("invalid-feedback").removeClass("valid-feedback");
+        // },
+        // unhighlight: function(element, errorClass, validClass) {
+        //     jQuery(element).parents(".form-group").addClass("invalid").removeClass("valid");
+        // } 
+        jQuery("#printPage").css({
+            'left' : jQuery(window).width()/2 - jQuery("#printPage").width()/2,
+            'position' : 'absolute'
+        })
+    });
+</script>
+{% endblock scripts %}

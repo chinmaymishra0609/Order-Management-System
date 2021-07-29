@@ -1,0 +1,148 @@
+{% extends "layout.html" %}
+{% block title %} About {% endblock %}
+{% block content %}
+{{ super() }}
+{% block page_content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <h1 class="text-center">Order Cancel</h1>
+                <table class="table table-bordered table-striped">
+                    <tr><th width="1%">Check</th><th width="59%">Product Name</th><th width="10%">Quantity</th><th width="10%">Sell Price</th><th width="10%">Discount</th><th width="10%">Net Price</th></tr>
+                    <tr><td> <input type="checkbox" name="" id=""></td><td>Lenevo Laptop</td><td>1</td><td>70000</td><td>250</td><td>69750</td></tr>
+                    <tr><td> <input type="checkbox" name="" id=""></td><td>Lenevo Laptop</td><td>1</td><td>70000</td><td>250</td><td>69750</td></tr>
+                    <tr><td> <input type="checkbox" name="" id=""></td><td>Lenevo Laptop</td><td>1</td><td>70000</td><td>250</td><td>69750</td></tr>
+                    <tr><td> <input type="checkbox" name="" id=""></td><td>Lenevo Laptop</td><td>1</td><td>70000</td><td>250</td><td>69750</td></tr>
+                    <tr><td> <input type="checkbox" name="" id=""></td><td>Lenevo Laptop</td><td>1</td><td>70000</td><td>250</td><td>69750</td></tr>
+                    <tr><td> <input type="checkbox" name="" id=""></td><td>Lenevo Laptop</td><td>1</td><td>70000</td><td>250</td><td>69750</td></tr>                    
+                </table>
+                <input type="checkbox" name="" id="" style="margin-left: 10px;"> Check All
+                <button type="submit" class="btn btn-secondary float-right">Cancel</button>
+            </div>
+        </div> 
+    {% endblock %}
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+
+        // It will set date field with current date. 
+        var date = new Date();
+        var today = date.getDate();
+        var month = date.getMonth() + 1;
+        var year = date.getFullYear();
+        var output = (today < 10 ? '0' : '') + today + '/' + (month < 10 ? '0' : '') + month + '/' + year;
+        jQuery('#ord_date').val(output);
+        
+        tableID = 1;
+        totalProduct = 0;
+        orderTotal = 0;
+        orderDiscount = 0;
+
+        jQuery(document).delegate('#ord_add_product', 'click', function (e) {
+            e.preventDefault();
+            var myTable = jQuery('table');
+            jQuery(myTable).show();
+
+            var myTBody = jQuery('tbody');
+            var srNo = jQuery('#ord_sr_no').val();
+            var productName = jQuery('#ord_product_name').val();
+            var productQuantity = jQuery('#ord_product_quantity').val();
+            var productDiscount = jQuery('#ord_product_discount').val();
+            var productSellPrice = jQuery('#ord_product_sell_price').val();
+            var productTotalPrice = jQuery('#ord_product_total_price').val();
+
+            tblID = 'table-row-' + tableID++;
+            jQuery('tbody').append('<tr id="' + tblID +
+                '"><td>' +
+                srNo + '</td><td>' + productName + '</td><td>' + productQuantity + '</td><td>' +
+                productSellPrice + '</td><td>' + productDiscount + '</td><td>' + productTotalPrice +
+                '</td><td><a href="#"><span id="edit-item" class="glyphicon glyphicon-edit"></span></a></td><td><a href="#"><span id="remove-item" class="glyphicon glyphicon-remove"></span></a></td></tr>'
+            );
+
+            jQuery('#ord_sr_no').val("");
+            jQuery('#ord_product_name').val("");
+            jQuery('#ord_product_quantity').val("");
+            jQuery('#ord_product_discount').val("");
+            jQuery('#ord_product_sell_price').val("");
+            jQuery('#ord_product_total_price').val("");
+
+            totalProduct += parseInt(productQuantity);
+            orderTotal += parseInt(productSellPrice * productQuantity);
+            orderDiscount += parseInt(productDiscount * productQuantity);
+
+            jQuery('#ord_total_product').val(totalProduct);
+            jQuery('#ord_total_amount').val(orderTotal);
+            jQuery('#ord_total_discount').val(orderDiscount);
+            jQuery('#ord_customer_dues').val(parseFloat(40000));
+            jQuery('#ord_gross_payable').val(orderTotal - orderDiscount);
+            jQuery('#ord_net_payable').val(orderTotal - orderDiscount + parseInt(jQuery('#ord_customer_dues').val()));
+        });
+
+        // Deleting Item.
+        jQuery(document).delegate('#remove-item', 'click', function (e) {
+            e.preventDefault();
+            var deleteRow = jQuery(this).parents('tr').find('td');
+
+            productQuantity = deleteRow[2].textContent;
+            productSellPrice = deleteRow[3].textContent * productQuantity;
+            productDiscount = deleteRow[4].textContent * productQuantity;
+            productTotalPrice = deleteRow[5].textContent;
+
+            totalProduct -= productQuantity;
+            orderTotal -= productSellPrice;
+            orderDiscount -= productDiscount;
+
+            jQuery('#ord_total_product').val(totalProduct);
+            jQuery('#ord_total_amount').val(orderTotal);
+            jQuery('#ord_total_discount').val(orderDiscount);
+            jQuery('#ord_customer_dues').val(0);
+            jQuery('#ord_gross_payable').val(orderTotal - orderDiscount);
+            jQuery('#ord_net_payable').val(orderTotal - orderDiscount + jQuery('#ord_customer_dues').val());
+
+            jQuery(this).parents('tr').remove();
+        });
+
+        // Updating Item
+        jQuery(document).delegate('#edit-item', 'click', function (e) {
+            e.preventDefault();
+            var updateRow = jQuery(this).parents('tr').find('td');
+
+            productQuantity = updateRow[2].textContent;
+            productSellPrice = updateRow[3].textContent * productQuantity;
+            productDiscount = updateRow[4].textContent * productQuantity;
+            productTotalPrice = updateRow[5].textContent;
+
+            totalProduct -= productQuantity;
+            orderTotal -= productSellPrice;
+            orderDiscount -= productDiscount;
+
+            jQuery('#ord_sr_no').val(updateRow[0].textContent);
+            jQuery('#ord_product_name').val(updateRow[1].textContent);
+            jQuery('#ord_product_quantity').val(updateRow[2].textContent);
+            jQuery('#ord_product_sell_price').val(updateRow[3].textContent);
+            jQuery('#ord_product_discount').val(updateRow[4].textContent);
+            jQuery('#ord_product_total_price').val(updateRow[5].textContent);
+
+            jQuery('#ord_total_product').val(totalProduct);
+            jQuery('#ord_total_amount').val(orderTotal);
+            jQuery('#ord_total_discount').val(orderDiscount);
+            jQuery('#ord_customer_dues').val(0);
+            jQuery('#ord_gross_payable').val(orderTotal - orderDiscount);
+            jQuery('#ord_net_payable').val(orderTotal - orderDiscount + jQuery('#ord_customer_dues').val());
+
+            jQuery(this).parents('tr').remove();
+        });
+
+        jQuery('#ord_product_quantity, #ord_product_discount, #ord_product_sell_price, #ord_product_total_price').keyup(function () {
+            jQuery('#ord_product_total_price').val(jQuery('#ord_product_quantity').val() * jQuery('#ord_product_sell_price').val() - (jQuery('#ord_product_quantity').val() * jQuery('#ord_product_discount').val()));
+        });
+
+        jQuery('#ord_total_paid').keyup(function () {
+            jQuery('#ord_customer_dues').val(jQuery('#ord_total_payable').val() - jQuery('#ord_total_paid').val());
+        });
+    });
+</script>
+{% endblock scripts %} 

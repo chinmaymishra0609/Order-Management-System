@@ -1,0 +1,588 @@
+{% extends "layout.html" %}
+{% block title %} Admin {% endblock %}
+{% block content %}
+{{ super() }}
+{% block page_content %}
+    <div class="container">
+        <div class="row"><div class="col-sm-12" id="alertMessage"></div></div>
+        <div class="row">
+            <div class="col-sm-4 center">
+                <div class="card mb-3 collapse show" id="receptionistRegistrationCard">
+                    <div class="card-header bg-secondary">
+                        <h4 class="card-title text-center text-white">Receptionist Registration</h4>
+                    </div>                            
+                    <div class="card-body">                                
+                        <form id="receptionistRegistrationForm" name="receptionistRegistrationForm" method="POST" class="form-vertical" action="" enctype="multipart/form-data">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" name="receptionistRegistrationFormReceptionistName" id="receptionistRegistrationFormReceptionistName" placeholder="Name">
+                                    </div>
+                                </div>                    
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" name="receptionistRegistrationFormReceptionistEmail" id="receptionistRegistrationFormReceptionistEmail" placeholder="Email">
+                                    </div>
+                                </div>                    
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" name="receptionistRegistrationFormReceptionistContact" id="receptionistRegistrationFormReceptionistContact" placeholder="Contact">
+                                    </div>
+                                </div>                    
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <div class="input-group">                                        
+                                            <input type="password" class="form-control" name="receptionistRegistrationFormReceptionistPassword" id="receptionistRegistrationFormReceptionistPassword" placeholder="Password">
+                                            <div class="input-group-append">
+                                                <div class="input-group-text"><i class="fa fa-eye"></i></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <input type="password" class="form-control" name="receptionistRegistrationFormReceptionistConfirmPassword" id="receptionistRegistrationFormReceptionistConfirmPassword" placeholder="Confirm Password">
+                                            <div class="input-group-append">
+                                                <div class="input-group-text"><i class="fa fa-eye"></i></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-10">
+                                    <div class="form-group">
+                                        <div class="custom-file">
+                                            <input type="file" class="custom-file-input" name="receptionistRegistrationFormReceptionistDigitalSign" id="receptionistRegistrationFormReceptionistDigitalSign">
+                                            <label class="custom-file-label" for="receptionistRegistrationFormReceptionistDigitalSign">Digital Sign</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <button type="submit" clicked="false" class="btn btn-secondary float-right d-print-none" id="receptionistRegistrationFormUploadFileButton" name="receptionistRegistrationFormUploadFileButton" style="margin-top:2px;">Upload</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <select name="receptionistRegistrationFormReceptionistRole" id="receptionistRegistrationFormReceptionistRole" class="form-control w-100">
+                                            <option value="">Role</option>
+                                            <option value="admin">Admin</option>
+                                            <option value="cashier">Cashier</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <select name="receptionistRegistrationFormReceptionistStatus" id="receptionistRegistrationFormReceptionistStatus" class="form-control w-100">
+                                            <option value="">Status</option>
+                                            <option value="activate">Activate</option>
+                                            <option value="deactivate">Deactivate</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-secondary float-right d-print-none" id="receptionistRegistrationFormRegisterButton" name="receptionistRegistrationFormRegisterButton" style="width:72px;">Submit</button>
+                                        <button type="button" class="btn btn-secondary float-right d-print-none mr-1" id="receptionistRegistrationFormUpdateButton" name="receptionistRegistrationFormUpdateButton" data-toggle="collapse" data-target="#receptionistRegistrationCard, #receptionistUpdationCard" style="width:72px;">Update</button>
+                                    </div>
+                                </div>                                
+                            </div>
+                        </form>                        
+                    </div>                        
+                </div>
+                <div class="card mb-3 collapse" id="receptionistUpdationCard">
+                    <div class="card-header bg-secondary">
+                        <h4 class="card-title text-center text-white">Receptionist Updation</h4>
+                    </div>                            
+                    <div class="card-body">                                
+                        <form id="receptionistUpdationForm" name="receptionistUpdationForm" method="POST" class="form-vertical" action="" enctype="multipart/form-data">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <input type="text" list="receptionistUpdationFormAppendDatalistReceptionistName" class="form-control" name="receptionistUpdationFormDatalistReceptionistName" id="receptionistUpdationFormDatalistReceptionistName" placeholder="Search Receptionist">
+                                        <datalist id="receptionistUpdationFormAppendDatalistReceptionistName"></datalist>
+                                    </div>
+                                </div>                    
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" name="receptionistUpdationFormReceptionistName" id="receptionistUpdationFormReceptionistName" placeholder="Name" readonly>
+                                    </div>
+                                </div>                    
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" name="receptionistUpdationFormReceptionistEmail" id="receptionistUpdationFormReceptionistEmail" placeholder="Email" readonly>
+                                    </div>
+                                </div>                    
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" name="receptionistUpdationFormReceptionistContact" id="receptionistUpdationFormReceptionistContact" placeholder="Contact" readonly>
+                                    </div>
+                                </div>                    
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <div class="input-group">                                        
+                                            <input type="password" class="form-control" name="receptionistUpdationFormReceptionistPassword" id="receptionistUpdationFormReceptionistPassword" placeholder="Password" readonly>
+                                            <div class="input-group-append">
+                                                <div class="input-group-text"><i class="fa fa-eye"></i></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <input type="password" class="form-control" name="receptionistUpdationFormReceptionistConfirmPassword" id="receptionistUpdationFormReceptionistConfirmPassword" placeholder="Confirm Password" readonly>
+                                            <div class="input-group-append">
+                                                <div class="input-group-text"><i class="fa fa-eye"></i></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <select name="receptionistUpdationFormReceptionistRole" id="receptionistUpdationFormReceptionistRole" class="form-control w-100" readonly>
+                                            <option value="">Role</option>
+                                            <option value="admin">Admin</option>
+                                            <option value="cashier">Cashier</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <select name="receptionistUpdationFormReceptionistStatus" id="receptionistUpdationFormReceptionistStatus" class="form-control w-100" readonly>
+                                            <option value="">Status</option>
+                                            <option value="activate">Activate</option>
+                                            <option value="deactivate">Deactivate</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-secondary float-right d-print-none" id="receptionistUpdationFormUpdateButton" name="receptionistUpdationFormUpdateButton" style="width:72px;">Submit</button>
+                                        <button type="button" class="btn btn-secondary float-right d-print-none mr-1" id="receptionistUpdationFormRegisterButton" name="receptionistUpdationFormRegisterButton" data-toggle="collapse" data-target="#receptionistRegistrationCard, #receptionistUpdationCard" style="width:72px;">Register</button>
+                                    </div>
+                                </div>                                
+                            </div>
+                        </form>                        
+                    </div>                        
+                </div>
+            </div>
+        </div>
+    </div>    
+    {% endblock %}
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script type="text/javascript">
+    jQuery(document).ready(function(){        
+        var receptionistName = "", receptionistContact = "";
+        'use strict';
+
+        // This code will set eye button cursor to pointer.
+        var eyeButton = jQuery('.fa.fa-eye, .fa.fa-eye-slash').css('cursor', 'pointer');
+        
+        // This code will show and hide password on clicking eye button.
+        jQuery('.fa.fa-eye, .fa.fa-eye-slash').click(function (e) {
+            var showHide = "#" + jQuery(this).parent().parent().prev().attr("id");
+            if("password" === (jQuery(showHide).attr("type"))){
+                jQuery(showHide).attr("type", "text");
+                jQuery(this).removeClass('fa-eye').addClass('fa-eye-slash');                
+            }
+            else{
+                jQuery(showHide).attr("type", "password");
+                jQuery(this).removeClass('fa-eye-slash').addClass('fa-eye');
+            }
+        });              
+        
+        // This code will set the uploaded file name in the input file field.
+        jQuery("#receptionistRegistrationFormReceptionistDigitalSign").change(function(e) {
+            var filename = jQuery(this).val().split("\\").pop();
+            jQuery(this).next("label").html(filename);
+        });
+    
+        // This code will search the receptionist.
+        jQuery("#receptionistUpdationFormDatalistReceptionistName").keyup(function(e) {
+            e.preventDefault();           
+            if(jQuery("#receptionistUpdationFormDatalistReceptionistName").val().length > 2){
+                jQuery.ajax({
+                    type: "POST",
+                    url: "{{ url_for('dynamicCustomerName') }}",
+                    dataType: "json",
+                    data: { "searchReceptionistName" : jQuery("#receptionistUpdationFormDatalistReceptionistName").val() },
+                })
+                .done(function (data) {
+                    if(undefined !== data.allReceptionistName){
+                        jQuery("#receptionistUpdationFormAppendDatalistReceptionistName").empty();
+                        for(let i=0; i<data.allReceptionistName.length; i++){
+                            jQuery('#receptionistUpdationFormAppendDatalistReceptionistName').append('<option value="' + data.allReceptionistName[i][0] + '   ' + data.allReceptionistName[i][1] + '">');
+                        }
+                    }
+                    else{
+                        jQuery("#alertMessage").html('<div class="alert alert-' + data.status + '">' + data.statusMessage + '</div>');
+                        jQuery("#alertMessage").fadeOut(5000);
+                    }
+                });
+            }            
+        });
+
+        // It will separate receptionist name and receptionist contact number.
+        jQuery("#receptionistUpdationFormDatalistReceptionistName").change(function(){            
+            receptionistName = jQuery("#receptionistUpdationFormDatalistReceptionistName").val().split("  ")[0].trim();
+            receptionistContact = jQuery("#receptionistUpdationFormDatalistReceptionistName").val().split("  ")[1].trim();
+            jQuery("#receptionistUpdationFormDatalistReceptionistName").val(receptionistName);
+        });
+        
+        // This code will search the receptionist.
+        jQuery("#receptionistUpdationFormDatalistReceptionistName").blur(function(e) {
+            e.preventDefault();
+            var validator = jQuery("#receptionistUpdationForm").validate({
+                onkeyup: false,
+                rules:{ receptionistUpdationFormDatalistReceptionistName    : { required : true, minlength: 3 }},
+                messages:{ receptionistUpdationFormDatalistReceptionistName : { required : "Please search receptionist name.", minlength : "Minimum 3 characters required." }},
+                errorElement: 'span',
+                errorPlacement: function (error, element) {
+                    error.addClass('invalid-feedback');
+                    element.closest('.form-group').append(error);
+                },
+                highlight: function (element, errorClass, validClass) {
+                    jQuery(element).addClass('is-invalid');
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    jQuery(element).removeClass('is-invalid');
+                }
+            });
+
+            if(true === validator.element("#receptionistUpdationFormDatalistReceptionistName")){
+                jQuery("#alertMessage").prop("style", 'display:"block;"');
+                jQuery("#alertMessage :first-child").remove();
+                jQuery.ajax({
+                    type: "POST",
+                    url: "{{ url_for('receptionistDetails') }}",
+                    dataType: "json",
+                    data: { "searchReceptionistName" : receptionistName, "searchReceptionistContact" : receptionistContact },
+                })
+                .done(function (data) {
+                    if(undefined !== data.newReceptionistDetails){
+                        jQuery('#receptionistUpdationForm :input').prop("readonly", false);
+                        jQuery('#receptionistUpdationForm select').removeAttr("readonly");
+                        jQuery('#receptionistUpdationFormReceptionistName').val(data.newReceptionistDetails.receptionistName);
+                        jQuery('#receptionistUpdationFormReceptionistEmail').val(data.newReceptionistDetails.receptionistEmail);
+                        jQuery('#receptionistUpdationFormReceptionistContact').val(data.newReceptionistDetails.receptionistContact);
+                        jQuery('#receptionistUpdationFormReceptionistPassword').val(data.newReceptionistDetails.receptionistPassword);
+                        jQuery('#receptionistUpdationFormReceptionistConfirmPassword').val(data.newReceptionistDetails.receptionistPassword);
+                        jQuery('#receptionistUpdationFormReceptionistRole').val(data.newReceptionistDetails.receptionistRole);
+                        jQuery('#receptionistUpdationFormReceptionistStatus').val(data.newReceptionistDetails.receptionistStatus);
+                    }   
+                    else{
+                        jQuery("#alertMessage").html('<div class="alert alert-' + data.status + '">' + data.statusMessage + '</div>');
+                        jQuery("#alertMessage").fadeOut(5000);
+                        jQuery('#receptionistUpdationForm :input').not("#receptionistUpdationFormDatalistReceptionistName").prop("readonly", true);
+                        jQuery('#receptionistUpdationForm select').attr("readonly", "readonly" );
+                        jQuery('#receptionistUpdationFormReceptionistName').val("");
+                        jQuery('#receptionistUpdationFormReceptionistEmail').val("");
+                        jQuery('#receptionistUpdationFormReceptionistContact').val("");
+                        jQuery('#receptionistUpdationFormReceptionistPassword').val("");
+                        jQuery('#receptionistUpdationFormReceptionistConfirmPassword').val("");
+                        jQuery('#receptionistUpdationFormReceptionistRole').val("");
+                        jQuery('#receptionistUpdationFormReceptionistStatus').val("");
+                    }
+                });
+            }
+            
+        });
+
+        // This code will upload the file.
+        jQuery("#receptionistRegistrationFormUploadFileButton").click(function(e) {
+            e.preventDefault();
+            var validator = jQuery("#receptionistRegistrationForm").validate({
+                onkeyup: false,
+                rules:{ receptionistRegistrationFormReceptionistDigitalSign    : { required : true }},
+                messages:{ receptionistRegistrationFormReceptionistDigitalSign : { required : "Please upload receptionist digital sign." }},
+                errorElement: 'span',
+                errorPlacement: function (error, element) {
+                    error.addClass('invalid-feedback');
+                    element.closest('.form-group').append(error);
+                },
+                highlight: function (element, errorClass, validClass) {
+                    jQuery(element).addClass('is-invalid');
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    jQuery(element).removeClass('is-invalid');
+                }
+            });
+    
+            // This code will make an ajax request to store a new product into products table.
+            if(true === validator.element("#receptionistRegistrationFormReceptionistDigitalSign")){
+                jQuery("#alertMessage").prop("style", 'display:"block;"');
+                jQuery("#alertMessage :first-child").remove();
+                
+                var formData = new FormData();
+                formData.append('digitalSign', jQuery("#receptionistRegistrationFormReceptionistDigitalSign")[0].files[0]);
+                var property = jQuery("#receptionistRegistrationFormReceptionistDigitalSign")[0].files[0];
+                var filename = property.name;
+                var filetype = property.name.split(".").pop();
+                var filesize = property.size;
+
+                if(-1 !== jQuery.inArray(filetype, ["gif", "png", "jpg", "jpeg", "bmp"])){
+                    if(1000000 >= filesize){ 
+                        jQuery("#receptionistRegistrationFormUploadFileButton").attr("clicked", "true");
+                        jQuery.ajax({
+                            type: "POST",
+                            url: "{{ url_for('digitalSignUpload') }}",
+                            data: formData,
+                            contentType: false,
+                            cache: false,
+                            processData: false
+                        })
+                        .done(function (data) {
+                            if("success" == data.status){
+                                jQuery("#alertMessage").html('<div class="alert alert-' + data.status + '">' + data.statusMessage + '</div>');
+                                jQuery("#alertMessage").fadeOut(5000);
+                            }
+                        });
+                    }
+                    else{
+                        jQuery("#alertMessage").html('<div class="alert alert-danger">File size must be less than or equal to 1 MB.</div>');
+                        jQuery("#alertMessage").fadeOut(5000);
+                    }
+                }
+                else{
+                    jQuery("#alertMessage").html('<div class="alert alert-danger">File type not allowed. You can upload only gif, png, jpg or jpeg file.</div>');
+                    jQuery("#alertMessage").fadeOut(5000);
+                }
+            }
+        });
+                
+        // This code will reset the receptionistRegistrationForm.
+        jQuery("#receptionistRegistrationFormUpdateButton").click(function(e){
+            jQuery("#receptionistRegistrationFormReceptionistDigitalSign").next("label").text("Digital Sign");
+            jQuery("#receptionistRegistrationForm").trigger("reset");
+        });
+
+        // This code will reset the receptionistUpdationForm.
+        jQuery("#receptionistUpdationFormRegistrationButton").click(function(e){
+            jQuery("#receptionistUpdationForm").trigger("reset");
+        });
+
+        // This code will validate the receptionistRegistrationForm.
+        jQuery("#receptionistRegistrationFormRegisterButton").click(function(e){
+            e.preventDefault();
+            var validator = jQuery("#receptionistRegistrationForm").validate({
+                onkeyup: false,
+                rules:{
+                    receptionistRegistrationFormReceptionistName             : { required : true },
+                    receptionistRegistrationFormReceptionistEmail            : { required : true, email : true},                    
+                    receptionistRegistrationFormReceptionistContact          : { required : true, minlength: 10, maxlength: 11, digits: true },
+                    receptionistRegistrationFormReceptionistPassword         : { required : true },
+                    receptionistRegistrationFormReceptionistConfirmPassword  : { required : true, equalTo : "#receptionistRegistrationFormReceptionistPassword" },
+                    receptionistRegistrationFormReceptionistDigitalSign      : { required : true },                    
+                    receptionistRegistrationFormReceptionistRole             : { required : true },
+                    receptionistRegistrationFormReceptionistStatus           : { required : true }                
+                },
+                messages:{
+                    receptionistRegistrationFormReceptionistName             : { required : "Please fill receptionist name." },
+                    receptionistRegistrationFormReceptionistEmail            : { required : "Please fill receptionist email.", email: "Email should be valid."},
+                    receptionistRegistrationFormReceptionistContact          : { required : "Please fill receptionist Contact.", minlength: "Contact number must not less than 10 characters",
+                                                                                 maxlength: "Contact number must not greater than 11 characters", digits: "Contact number must contain only digits."
+                                                                               },
+                    receptionistRegistrationFormReceptionistPassword         : { required : "Please fill receptionist password." },
+                    receptionistRegistrationFormReceptionistConfirmPassword  : { required : "Please fill receptionist confirm password.",
+                                                                                 equalTo  : "Confirm Password did not macth with password."
+                                                                               },
+                    receptionistRegistrationFormReceptionistDigitalSign      : { required : "Please upload receptionist digital sign."},
+                    receptionistRegistrationFormReceptionistRole             : { required : "Please fill receptionist role." },
+                    receptionistRegistrationFormReceptionistStatus           : { required : "Please fill receptionist status." }
+                },
+                errorElement: 'span',
+                errorPlacement: function (error, element) {
+                    error.addClass('invalid-feedback');
+                    element.closest('.form-group').append(error);
+                },
+                highlight: function (element, errorClass, validClass) {
+                    jQuery(element).addClass('is-invalid');
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    jQuery(element).removeClass('is-invalid');
+                }
+            });
+    
+            // 
+            if(true === validator.element("#receptionistRegistrationFormReceptionistDigitalSign")){
+                if(true === jQuery("#receptionistRegistrationForm").valid()){
+                    jQuery("#alertMessage").prop("style", 'display:"block;"');
+                    jQuery("#alertMessage :first-child").remove();
+                    if("true" === jQuery("#receptionistRegistrationFormUploadFileButton").attr("clicked")){
+                        jQuery.ajax({
+                            type: "POST",
+                            url: "{{ url_for('receptionistDetails') }}",
+                            dataType: 'json',
+                            data: {
+                                "receptionistName" : jQuery('#receptionistRegistrationFormReceptionistName').val(),
+                                "receptionistEmail" : jQuery('#receptionistRegistrationFormReceptionistEmail').val(),
+                                "receptionistContact" : jQuery('#receptionistRegistrationFormReceptionistContact').val(),
+                                "receptionistPassword" : jQuery('#receptionistRegistrationFormReceptionistPassword').val(),
+                                "receptionistDigitalSign" : jQuery('#receptionistRegistrationFormReceptionistDigitalSign').val().split('\\').pop(),
+                                "receptionistRole" : jQuery('#receptionistRegistrationFormReceptionistRole').val(),
+                                "receptionistStatus" : jQuery('#receptionistRegistrationFormReceptionistStatus').val(),
+                            }
+                        })
+                        .done(function (data) {
+                            if("success" === data.status){
+                                jQuery("#receptionistRegistrationFormUploadFileButton").attr("clicked", "false");
+                                jQuery('#receptionistRegistrationFormReceptionistName').val("");
+                                jQuery('#receptionistRegistrationFormReceptionistEmail').val("");
+                                jQuery('#receptionistRegistrationFormReceptionistContact').val("");
+                                jQuery('#receptionistRegistrationFormReceptionistPassword').val("");
+                                jQuery('#receptionistRegistrationFormReceptionistConfirmPassword').val("");                                
+                                jQuery('#receptionistRegistrationFormReceptionistDigitalSign').val("").next("label").text("Digital Sign");
+                                jQuery('#receptionistRegistrationFormReceptionistRole').val("");
+                                jQuery('#receptionistRegistrationFormReceptionistStatus').val("");
+                                jQuery("#alertMessage").html('<div class="alert alert-' + data.status + '">' + data.statusMessage + '</div>');
+                                jQuery("#alertMessage").fadeOut(5000);
+                            }
+                            else{
+                                jQuery("#alertMessage").html('<div class="alert alert-' + data.status + '">' + data.statusMessage + '</div>');
+                                jQuery("#alertMessage").fadeOut(5000);
+                            }
+                        });
+                    }
+                    else{
+                        jQuery("#alertMessage").html('<div class="alert alert-danger">Please first upload file using  Upload button.</div>');
+                        jQuery("#alertMessage").fadeOut(5000);
+                    }
+                }
+            }
+        });
+
+        // This code will validate the receptionistUpdationForm.
+        jQuery("#receptionistUpdationFormUpdateButton").click(function(e){
+            e.preventDefault();
+            var validator = jQuery("#receptionistUpdationForm").validate({
+                onkeyup: false,
+                rules:{
+                    receptionistUpdationFormDatalistReceptionistName     : { required : true, minlength: 3 },
+                    receptionistUpdationFormReceptionistName             : { required : true },
+                    receptionistUpdationFormReceptionistEmail            : { required : true, email : true},                    
+                    receptionistUpdationFormReceptionistContact          : { required : true, minlength: 10, maxlength: 11, digits: true },
+                    receptionistUpdationFormReceptionistPassword         : { required : true },
+                    receptionistUpdationFormReceptionistConfirmPassword  : { required : true, equalTo : "#receptionistUpdationFormReceptionistPassword" },
+                    receptionistUpdationFormReceptionistRole             : { required : true },
+                    receptionistUpdationFormReceptionistStatus           : { required : true }
+                },
+                messages:{
+                    receptionistUpdationFormDatalistReceptionistName     : { required : "Please search receptionist name.", minlength : "Minimum 3 characters required." },
+                    receptionistUpdationFormReceptionistName             : { required : "Please fill receptionist name." },
+                    receptionistUpdationFormReceptionistEmail            : { required : "Please fill receptionist email.", email: "Email should be valid."},
+                    receptionistUpdationFormReceptionistContact          : { required : "Please fill receptionist Contact.", minlength: "Contact number must not less than 10 characters",
+                                                                             maxlength: "Contact number must not greater than 11 characters", digits: "Contact number must contain only digits."
+                                                                           },
+                    receptionistUpdationFormReceptionistPassword         : { required : "Please fill receptionist password." },
+                    receptionistUpdationFormReceptionistConfirmPassword  : { required : "Please fill receptionist confirm password.",
+                                                                             equalTo  : "Confirm Password did not macth with password."
+                                                                           },
+                    receptionistUpdationFormReceptionistRole             : { required : "Please fill receptionist role." },
+                    receptionistUpdationFormReceptionistStatus           : { required : "Please fill receptionist status." }
+                },
+                errorElement: 'span',
+                errorPlacement: function (error, element) {
+                    error.addClass('invalid-feedback');
+                    element.closest('.form-group').append(error);
+                },
+                highlight: function (element, errorClass, validClass) {
+                    jQuery(element).addClass('is-invalid');
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    jQuery(element).removeClass('is-invalid');
+                }
+            });
+    
+            // .
+            if(true === validator.element("#receptionistUpdationFormDatalistReceptionistName")){
+                if(true === jQuery("#receptionistUpdationForm").valid()){
+                    jQuery("#alertMessage").prop("style", 'display:"block;"');
+                    jQuery("#alertMessage :first-child").remove();
+                    jQuery.ajax({
+                        type: "POST",
+                        url: "{{ url_for('receptionistDetails') }}",
+                        dataType: 'json',
+                        data: {
+                            "datalistReceptionistName" : jQuery('#receptionistUpdationFormDatalistReceptionistName').val(),
+                            "datalistReceptionistContact" : receptionistContact,
+                            "receptionistName" : jQuery('#receptionistUpdationFormReceptionistName').val(),
+                            "receptionistEmail" : jQuery('#receptionistUpdationFormReceptionistEmail').val(),
+                            "receptionistContact" : jQuery('#receptionistUpdationFormReceptionistContact').val(),
+                            "receptionistPassword" : jQuery('#receptionistUpdationFormReceptionistPassword').val(),
+                            "receptionistRole" : jQuery('#receptionistUpdationFormReceptionistRole').val(),
+                            "receptionistStatus" : jQuery('#receptionistUpdationFormReceptionistStatus').val()
+                        }
+                    })
+                    .done(function (data) {
+                        if(undefined !== data.updateReceptionistDetails){
+                            jQuery("#alertMessage").html('<div class="alert alert-' + data.status + '">' + data.statusMessage + '</div>');
+                            jQuery("#alertMessage").fadeOut(5000);
+                            jQuery('#receptionistUpdationForm :input').prop("readonly", false);
+                            jQuery('#receptionistUpdationForm select').removeAttr("readonly");
+                            jQuery('#receptionistUpdationFormDatalistReceptionistName').val(data.updateReceptionistDetails.receptionistName);
+                            jQuery('#receptionistUpdationFormReceptionistName').val(data.updateReceptionistDetails.receptionistName);
+                            jQuery('#receptionistUpdationFormReceptionistEmail').val(data.updateReceptionistDetails.receptionistEmail);
+                            jQuery('#receptionistUpdationFormReceptionistContact').val(data.updateReceptionistDetails.receptionistContact);
+                            jQuery('#receptionistUpdationFormReceptionistPassword').val(data.updateReceptionistDetails.receptionistPassword);
+                            jQuery('#receptionistUpdationFormReceptionistConfirmPassword').val(data.updateReceptionistDetails.receptionistPassword);
+                            jQuery('#receptionistUpdationFormReceptionistRole').val(data.updateReceptionistDetails.receptionistRole);
+                            jQuery('#receptionistUpdationFormReceptionistStatus').val(data.updateReceptionistDetails.receptionistStatus);
+                            receptionistContact = data.updateReceptionistDetails.receptionistContact;
+                        }
+                        else{
+                            jQuery("#alertMessage").html('<div class="alert alert-' + data.status + '">' + data.statusMessage + '</div>');
+                            jQuery("#alertMessage").fadeOut(5000);
+                            jQuery('#receptionistUpdationForm :input').prop("readonly", true);
+                            jQuery('#receptionistUpdationForm select').attr("readonly", "readonly");
+                            jQuery('#receptionistUpdationFormDatalistReceptionistName').val("");
+                            jQuery('#receptionistUpdationFormReceptionistName').val("");
+                            jQuery('#receptionistUpdationFormReceptionistEmail').val("");
+                            jQuery('#receptionistUpdationFormReceptionistContact').val("");
+                            jQuery('#receptionistUpdationFormReceptionistPassword').val("");
+                            jQuery('#receptionistUpdationFormReceptionistConfirmPassword').val("");
+                            jQuery('#receptionistUpdationFormReceptionistRole').val("");
+                            jQuery('#receptionistUpdationFormReceptionistStatus').val("");                            
+                        }
+                    });
+                }
+            }
+        });
+    });
+</script>
+{% endblock scripts %}  

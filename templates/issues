@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+{% block title %} User Management System {% endblock %}
+{% block content %}
+    {% block page_content %}
+        <div class="container">
+            <form action="" class="form-inline">
+                <div class="form-group">
+                    <label for="emailInput">Email Address:</label>
+                    <input type="email" name="emailInput" id="emailInput" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="nameInput">Name:</label>
+                    <input type="text" name="nameInput" id="nameInput" class="form-control">
+                </div>
+                <button type="submit" class="btn btn-default">Submit</button>
+            </form>
+            <div id="successAlert" class="alert alert-success" style="display:none"></div>
+            <div id="errorAlert" class="alert alert-danger" style="display:none"></div>
+        </div>
+    {% endblock %}
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    <script type="text/javascript">
+        jQuery(document).ready(function(){
+            
+        });
+    </script>
+{% endblock scripts %}

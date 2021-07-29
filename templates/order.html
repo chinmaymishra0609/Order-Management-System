@@ -1,0 +1,324 @@
+{% extends "layout.html" %}
+{% block title %} Order {% endblock %}
+{% block content %}
+{{ super() }}
+{% block page_content %}
+    <div class="container" id="mainOrderInformationPage" style="font-size: 0.875rem;">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h2 class="text-center text-secondary p-2" style="border: 1px dotted #ddd">Invoice Management System</h2>
+                    </div>
+                </div>
+                <div class="row"><div class="col-sm-12" id="alertMessage"></div></div>
+                <form id="orderInformationForm" name="orderInformationForm" method="POST" class="form-vertical" action="">                    
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <input type="text" list="orderInformationFormDatalistCustomerName" class="form-control" id="orderInformationFormCustomerName" name="orderInformationFormCustomerName" placeholder="Customer Name">
+                                <datalist id="orderInformationFormDatalistCustomerName"></datalist>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <input type="text" list="orderInformationFormDatalistCustomerContact" class="form-control" id="orderInformationFormCustomerContact" name="orderInformationFormCustomerContact" placeholder="Contact Number">
+                                <datalist id="orderInformationFormDatalistCustomerContact"></datalist>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <input type="text" list="orderInformationFormDatalistCustomerEmail" class="form-control" id="orderInformationFormCustomerEmail" name="orderInformationFormCustomerEmail" placeholder="Email Address">
+                                <datalist id="orderInformationFormDatalistCustomerEmail"></datalist>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="orderInformationFormOrderNumber" name="orderInformationFormOrderNumber" placeholder="Order Number">
+                            </div>
+                        </div>
+                        <div class="col-sm-1">
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-secondary float-right d-print-none" id="orderInformationFormSubmitButton" name="orderInformationFormSubmitButton" style="width:72px;">Submit</button>
+                            </div>
+                        </div>
+                    </div>                                        
+                </form>
+            </div>
+        </div>
+        <table class="table table-striped table-bordered" id="dueOrderDetailsTable">
+            <thead>
+                <tr>               
+                    <th width="8%">Order No.</th>
+                    <th width="28%">Product Details</th>
+                    <th width="9%">Status</th>
+                    <th width="9%">Total</th>
+                    <th width="9%">Paid</th>
+                    <th width="8%">Due</th>
+                    <th width="11%">Mode</th>
+                    <th width="11%">Payer</th>
+                    <th width="7%">Update</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+            <tfoot></tfoot>
+        </table>
+    </div>
+    {% endblock %}
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        var status = "", customerName, customerName="", customerContact="", str = "", 
+        totalProduct = 0, totalSellPrice = 0, totalDiscount = 0, totalPayable = 0, prd=0, customerContact="", dueDate="", customerDues="";
+        
+        // It will add customer name dynamically in datalist menu on keyup event.
+        jQuery("#orderInformationFormCustomerName, #orderInformationFormCustomerContact, #orderInformationFormCustomerEmail").keyup(function(e){
+            e.preventDefault();
+            if (jQuery("#orderInformationFormCustomerName").val().length > 2){
+                str = jQuery("#orderInformationFormCustomerName").val();
+                if((((str.charCodeAt(0) <= 122) && (str.charCodeAt(0) >= 97)) || ((str.charCodeAt(0) <= 90) && (str.charCodeAt(0) >= 65))) &&
+                   (((str.charCodeAt(1) <= 122) && (str.charCodeAt(1) >= 97)) || ((str.charCodeAt(1) <= 90) && (str.charCodeAt(1) >= 65))) &&
+                   (((str.charCodeAt(2) <= 122) && (str.charCodeAt(2) >= 97)) || ((str.charCodeAt(2) <= 90) && (str.charCodeAt(2) >= 65)))){
+                    jQuery.ajax({
+                        type: "POST",
+                        url: "{{ url_for('dynamicCustomerName') }}",
+                        dataType: 'json',
+                        data: { "orderDetailsCustomerName" : jQuery('#orderInformationFormCustomerName').val()}
+                    })
+                    .done(function(data){
+                        if("" !== jQuery("#orderInformationFormCustomerName").val()){
+                            jQuery('#orderInformationFormDatalistCustomerName').empty();
+                            for (i=0; i<data.allCustomerName.length; i++){
+                                jQuery('#orderInformationFormDatalistCustomerName').append('<option value="' + data.allCustomerName[i][0] + '   ' + data.allCustomerName[i][1] + '">');
+                            }
+                        }
+                    });
+                }
+            }            
+            if (jQuery("#orderInformationFormCustomerContact").val().length > 2){
+                str = jQuery("#orderInformationFormCustomerContact").val();
+                if(((str.charCodeAt(0) <= 57) && (str.charCodeAt(0) >= 48)) && ((str.charCodeAt(1) <= 57) && (str.charCodeAt(1) >= 48)) && ((str.charCodeAt(2) <= 57) && (str.charCodeAt(2) >= 48))){
+                    jQuery.ajax({
+                        type: "POST",
+                        url: "{{ url_for('dynamicCustomerName') }}",
+                        dataType: 'json',
+                        data: { "orderDetailsCustomerContact" : jQuery('#orderInformationFormCustomerContact').val()}
+                    })
+                    .done(function(data){
+                        if("" !== jQuery("#orderInformationFormCustomerContact").val()){
+                            jQuery('#orderInformationFormDatalistCustomerContact').empty();
+                            for (i=0; i<data.allCustomerName.length; i++){
+                                jQuery('#orderInformationFormDatalistCustomerContact').append('<option value="' + data.allCustomerName[i][0] + '   ' + data.allCustomerName[i][1] + '">');
+                            }
+                        }
+                    });
+                }
+            }
+            if (jQuery("#orderInformationFormCustomerEmail").val().length > 2){
+                str = jQuery("#orderInformationFormCustomerEmail").val();
+                if((((str.charCodeAt(0) <= 122) && (str.charCodeAt(0) >= 97)) || ((str.charCodeAt(0) <= 90) && (str.charCodeAt(0) >= 65))) &&
+                   (((str.charCodeAt(1) <= 122) && (str.charCodeAt(1) >= 97)) || ((str.charCodeAt(1) <= 90) && (str.charCodeAt(1) >= 65))) &&
+                   (((str.charCodeAt(2) <= 122) && (str.charCodeAt(2) >= 97)) || ((str.charCodeAt(2) <= 90) && (str.charCodeAt(2) >= 65)))){
+                    jQuery.ajax({
+                        type: "POST",
+                        url: "{{ url_for('dynamicCustomerName') }}",
+                        dataType: 'json',
+                        data: { "orderDetailsCustomerEmail" : jQuery('#orderInformationFormCustomerEmail').val()}
+                    })
+                    .done(function(data){
+                        if("" !== jQuery("#orderInformationFormCustomerEmail").val()){
+                            jQuery('#orderInformationFormDatalistCustomerEmail').empty();
+                            for (i=0; i<data.allCustomerName.length; i++){
+                                jQuery('#orderInformationFormDatalistCustomerEmail').append('<option value="' + data.allCustomerName[i] + '">');
+                            }
+                        }
+                    });
+                }
+            }
+            // else{ jQuery("#orderInformationFormCustomerNameOrContact").empty(); }
+        });
+    
+        // It will separate customer name with customer name and contact number.
+        jQuery("#orderInformationFormCustomerName, #orderInformationFormCustomerContact").change(function(){
+            if((((str.charCodeAt(0) <= 122) && (str.charCodeAt(0) >= 97)) || ((str.charCodeAt(0) <= 90) && (str.charCodeAt(0) >= 65))) &&
+                (((str.charCodeAt(1) <= 122) && (str.charCodeAt(1) >= 97)) || ((str.charCodeAt(1) <= 90) && (str.charCodeAt(1) >= 65))) &&
+                (((str.charCodeAt(2) <= 122) && (str.charCodeAt(2) >= 97)) || ((str.charCodeAt(2) <= 90) && (str.charCodeAt(2) >= 65)))){
+                customerName = jQuery("#orderInformationFormCustomerName").val().split("  ")[0].trim();
+                customerContact = jQuery("#orderInformationFormCustomerName").val().split("  ")[1].trim();
+                jQuery("#orderInformationFormCustomerName").val(customerName);
+            }
+            else if(((str.charCodeAt(0) <= 57) && (str.charCodeAt(0) >= 48)) && ((str.charCodeAt(1) <= 57) && (str.charCodeAt(1) >= 48)) && ((str.charCodeAt(2) <= 57) && (str.charCodeAt(2) >= 48))){
+                    customerName = jQuery("#orderInformationFormCustomerContact").val().split("  ")[0].trim();
+                    customerContact = jQuery("#orderInformationFormCustomerContact").val().split("  ")[1].trim();
+                    jQuery("#orderInformationFormCustomerContact").val(customerContact);
+            }
+            else { jQuery("#orderInformationFormCustomerContact").empty(); }
+        });
+
+        // It will add customer name dynamically in datalist menu on keyup event.
+        jQuery("#orderInformationFormSubmitButton").click(function(e){
+            var status = "";
+            e.preventDefault();
+            jQuery("#alertMessage").prop("style", 'display:"block;"');
+            jQuery("#alertMessage :first-child").remove();
+            var data = "";                    
+            jQuery.ajax({
+                type: "POST",
+                url: "{{ url_for('orderInformation') }}",
+                dataType: 'json',
+                data:  {
+                    "orderInformationCustomerName" : ("" !== jQuery('#orderInformationFormCustomerName').val()) ?  customerName : "",
+                    "orderInformationCustomerContact" : ("" !== jQuery('#orderInformationFormCustomerContact').val()) ? customerContact : "" ,
+                    "orderInformationCustomerEmail" : ("" !== jQuery('#orderInformationFormCustomerEmail').val()) ? jQuery('#orderInformationFormCustomerEmail').val() : "",
+                    "orderInformationOrderNumber" : ("" !== jQuery("#orderInformationFormOrderNumber").val()) ? jQuery('#orderInformationFormOrderNumber').val() : ""
+                }
+            })
+            .done(function(data){
+                if(undefined !== data.orderDetails){
+                    jQuery("#dueOrderDetailsTable tbody").empty();
+                    for (i=0; i<data.orderDetails.length; i++){
+                        orderProductDetails = [];
+                        for(j=1; j<=Object.keys(data.orderDetails[i].productDetails).length; j++){
+                            let product = "product" + j;
+                            orderProductDetails.push(" " + data.orderDetails[i].productDetails[product] );                                
+                        }
+                        
+                        jQuery("#dueOrderDetailsTable tbody").append('<tr id="'+ data.orderDetails[i].orderID +'"><td width="8%">'+ data.orderDetails[i].orderID +'</td>\
+                                                                        <td width="28%">'+ orderProductDetails +'</td>\
+                                                                        <td width="9%">' + data.orderDetails[i].orderStatus + '</td>\
+                                                                        <td width="9%">'+ data.orderDetails[i].orderTotal +'</td>\
+                                                                        <td width="9%">'+ data.orderDetails[i].orderNetPaid +'</td>\
+                                                                        <td width="8%">'+ (parseFloat(data.orderDetails[i].orderTotal) - parseFloat(data.orderDetails[i].orderNetPaid)) +'</td>\
+                                                                        <td width="11%">\
+                                                                            <select class="form-control paymode">\
+                                                                                <option value="">Mode</option>\
+                                                                                <option value="Cash">Cash</option>\
+                                                                                <option value="Checque">Checque</option>\
+                                                                                <option value="Online">Online</option>\
+                                                                        </td>\
+                                                                        <td width="11%" class="payer" contenteditable="true"></td>\
+                                                                        <td width="7%" class="text-center">' + '<button type="submit" class="btn btn-secondary pendingOrder" style="width: 62px;">Update</button>' + '</td>\
+                                                                    </tr>');
+                    }
+                }
+                else{
+                    jQuery("#alertMessage").html('<div class="alert alert-danger">No data found.</div>');
+                    jQuery("#alertMessage").fadeOut(5000);
+                }
+            });
+        });        
+
+        // It will update the Pending Order and will set Update Button to Print Button.
+        jQuery("#dueOrderDetailsTable").delegate(".pendingOrder", "click", function(e){
+            e.preventDefault();
+            jQuery("#alertMessage").prop("style", 'display:"block;"');
+            jQuery("#alertMessage :first-child").remove();
+            var dueOrder = jQuery("#" + (jQuery(this).parents("tr").attr("id"))).find("td");
+            jQuery.ajax({
+                type: "POST",
+                url: "{{ url_for('duePaid') }}",
+                dataType: 'json',
+                data: {
+                    "dueOrderNumber" : dueOrder[0].textContent,
+                    "dueOrderProduct" : dueOrder[3].textContent,
+                    "dueOrderTotal" : dueOrder[4].textContent,
+                    "dueOrderNetPaid" : dueOrder[5].textContent,
+                    "dueAmount" : dueOrder[6].textContent,
+                    "dueOrderStatus" : dueOrder[7].textContent,
+                }
+            })
+            .done(function(data){
+                if("" !== data){
+                    jQuery(dueOrder[5]).text(data.orderDetails.orderTotal) ;
+                    jQuery(dueOrder[6]).text((parseFloat(data.orderDetails.orderTotal) -  parseFloat(data.orderDetails.orderNetPaid))) ;
+                    jQuery(dueOrder[7]).text(data.orderDetails.orderStatus) ;
+                    jQuery("#alertMessage").html('<div class="alert alert-' + data.status + '">' + data.statusMessage + '</div>');
+                    jQuery("#alertMessage").fadeOut(5000);
+                    jQuery(dueOrder[8]).html('<button type="submit" class="btn btn-secondary printOrder" style="width: 62px;">Print</button>');
+                }
+            });
+        });
+    
+        // It will Open the Pending Order Print Page.
+        jQuery("#dueOrderDetailsTable").delegate(".printOrder", "click", function(e){
+            e.preventDefault();
+            var printOrder = jQuery("#" + (jQuery(this).parents("tr").attr("id"))).find("td"), orderProductDetails;
+            jQuery.ajax({
+                type: "POST",
+                url: "{{ url_for('dataOrderNumber') }}",
+                dataType: 'json',
+                data: { "dueOrderNumber" : printOrder[0].textContent }
+            })
+            .done(function(data){
+                if(undefined !== data.dueOrderDetails){                    
+                    jQuery("#mainOrderInformationPage").hide();
+                    jQuery("#pendingOrderPrintPage").show();
+                }                
+            });
+        });
+    
+        // It will Print the Order.
+        jQuery("#pendingOrderPrintButton").click(function(){
+            window.print();
+        });
+        
+        jQuery("#pendingOrderBackButton").click(function(){
+            jQuery("#mainOrderInformationPage").show();
+            totalProduct = 0, totalSellPrice = 0, totalDiscount = 0;
+            jQuery("#pendingOrderPrintPage").hide();
+        });
+
+        jQuery("#completeOrderBackButton ").click(function(){
+            jQuery("#mainOrderInformationPage").show();
+            totalProduct = 0, totalSellPrice = 0, totalDiscount = 0;
+            jQuery("#completeOrderPrintPage").hide();
+        });
+
+        // It will fill remaining two columns according to filled column on blur event.
+        // jQuery("#orderInformationFormCustomerName, #orderInformationFormCustomerContact, #orderInformationFormCustomerEmail").blur(function(e){
+        //     e.preventDefault();
+        //     var data = "";
+        //     if("" !== jQuery("#orderInformationFormCustomerName").val()){
+        //         data = { "orderInformationCustomerName" : customerName, "orderInformationCustomerContact" : customerContact };
+        //     }
+        //     if("" !== jQuery("#orderInformationFormCustomerContact").val()){
+        //         data = { "orderInformationCustomerName" : customerName, "orderInformationCustomerContact" : customerContact };
+        //     }
+        //     if("" !== jQuery("#orderInformationFormCustomerEmail").val()){
+        //         data = { "orderInformationCustomerEmail" : jQuery("#orderInformationFormCustomerEmail").val()};              
+        //     }
+        //     jQuery.ajax({
+        //         type: "POST",
+        //         url: "{{ url_for('customerDetailsFill') }}",
+        //         dataType: 'json',
+        //         data: data
+        //     })
+        //     .done(function(data){
+        //         if(undefined !== data.customerDetails){
+        //             if(("" !== jQuery("#orderInformationFormCustomerName").val()) || ("" === jQuery("#orderInformationFormCustomerContact").val())){
+        //                 jQuery("#orderInformationFormCustomerContact").val("");
+        //                 jQuery("#orderInformationFormCustomerEmail").val("");
+        //                 jQuery("#orderInformationFormCustomerContact").val(customerContact);
+        //                 jQuery("#orderInformationFormCustomerEmail").val(data.customerDetails.customerEmail);
+        //             }
+        //             else if(("" === jQuery("#orderInformationFormCustomerName").val()) || ("" !== jQuery("#orderInformationFormCustomerContact").val())){                                                
+        //                 jQuery("#orderInformationFormCustomerName").val("")
+        //                 jQuery("#orderInformationFormCustomerEmail").val("");
+        //                 jQuery("#orderInformationFormCustomerName").val(customerName)
+        //                 jQuery("#orderInformationFormCustomerEmail").val(data.customerDetails.customerEmail);
+        //             }
+        //             else if("" !== jQuery("#orderInformationFormCustomerEmail").val()){
+        //                 jQuery("#orderInformationFormCustomerName").val("");
+        //                 jQuery("#orderInformationFormCustomerContact").val("");
+        //                 jQuery("#orderInformationFormCustomerName").val(data.customerDetails.customerName);
+        //                 jQuery("#orderInformationFormCustomerContact").val(data.customerDetails.customerContact);
+        //             }
+        //         }
+        //     });    
+        // });
+    });
+</script>
+{% endblock scripts %}

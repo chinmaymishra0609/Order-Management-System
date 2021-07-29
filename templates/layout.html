@@ -1,0 +1,70 @@
+{% block doc -%}
+  <!DOCTYPE html>
+    <html{% block html_attribs %}{% endblock html_attribs %}>
+    {%- block html %}
+      <head>
+        {%- block head %}
+          <title>{% block title %}{{title|default}}{% endblock title %}</title>
+
+          {%- block metas %}
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          {%- endblock metas %}
+
+          {%- block styles %}
+          <!-- Bootstrap CSS Cloudfare -->
+          <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.css"> -->
+          <!-- Bootstrap CSS MAXCDN -->
+            <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">           -->
+          <!-- Bootstrap Local File  -->
+          <link rel="stylesheet" href="{{ url_for ('static', filename='bootstrap/dist/css/bootstrap.css') }}">
+          <!-- Custom CSS -->
+            <link rel="stylesheet" href="{{ url_for ('static', filename='ims.css') }}">
+          <!-- Glyphicon CSS -->
+            <link rel="stylesheet" href="{{ url_for ('static', filename='glyphicon.css') }}">
+          <!-- Glyphicon CSS -->
+            <link rel="stylesheet" href="{{ url_for ('static', filename='fontawesome/css/all.css') }}">
+          {%- endblock styles %}
+        {%- endblock head %}
+      </head>
+    
+      <body{% block body_attribs %}{% endblock body_attribs %}>
+        {% block body -%}
+          {% block navbar %}
+          {% endblock %}
+
+          {% block content %}          
+            <div id="sidebar">
+                <div><a href="/" class="text-white font-weight-bold">Home</a></div>
+                <div><a href="/dueClear" class="text-white font-weight-bold">dueClear</a></div>
+                <div><a href="/product" class="text-white font-weight-bold">Product</a></div>
+                <div><a href="/receptionist" class="text-white font-weight-bold">Receptionist</a></div>
+            </div>
+          {% endblock %}
+
+          {% block scripts %}
+            <!-- jQuery File -->
+            <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/4.3.1/jquery.min.js"></script>           -->
+
+            <!-- jQuery Local File -->
+            <script src="{{ url_for ('static', filename='jquery.js') }}"></script>
+            
+            <!-- Bootstrap JS Local File -->
+            <script src="{{ url_for ('static', filename='bootstrap/dist/js/bootstrap.js') }}"></script>
+
+            <!-- Custom JS Local File -->
+            <script src="{{ url_for ('static', filename='ims.js') }}"></script>
+            <script src="{{ url_for ('static', filename='popper.js') }}"></script>
+            <script src="{{ url_for ('static', filename='jquery.validate.js') }}"></script>
+            <script src="{{ url_for ('static', filename='additional-methods.js') }}"></script>
+            
+            <!-- Bootstrap JS Cloudfare -->
+            <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.js"></script>            
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/additional-methods.js"></script> -->
+          {%- endblock scripts %}
+        {%- endblock body %}
+      </body>
+    {%- endblock html %}
+  </html>
+{% endblock doc -%}  
